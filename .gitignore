@@ -1,2 +1,5 @@
 ﻿/.vs
 /.svn
+*.sqlproj.user
+*.dbmdl
+db/*/匯入結構描述記錄

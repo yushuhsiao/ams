@@ -1,5 +1,10 @@
 ﻿/.vs
 /.svn
 *.sqlproj.user
-*.dbmdl
+*.csproj.user
+db/*/*.dbmdl
+db/*/*.jfm
 db/*/匯入結構描述記錄
+bin/
+obj/
+/lib.ext

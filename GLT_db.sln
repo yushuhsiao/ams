@@ -13,6 +13,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_Main", "db\GLT_Main\GLT
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_User", "db\GLT_User\GLT_User.sqlproj", "{3F39FD9D-481F-4C90-BC5D-C93762C759AB}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_Reporting", "db\GLT_Reporting\GLT_Reporting.sqlproj", "{57B47640-AB13-4CA7-931F-8262CC0754B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,12 @@ Global
 		{3F39FD9D-481F-4C90-BC5D-C93762C759AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F39FD9D-481F-4C90-BC5D-C93762C759AB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F39FD9D-481F-4C90-BC5D-C93762C759AB}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{57B47640-AB13-4CA7-931F-8262CC0754B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57B47640-AB13-4CA7-931F-8262CC0754B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57B47640-AB13-4CA7-931F-8262CC0754B7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{57B47640-AB13-4CA7-931F-8262CC0754B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57B47640-AB13-4CA7-931F-8262CC0754B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57B47640-AB13-4CA7-931F-8262CC0754B7}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

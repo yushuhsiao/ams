@@ -1,4 +1,4 @@
-﻿/.vs
+/.vs
 /.svn
 *.sqlproj.user
 *.csproj.user
@@ -8,3 +8,4 @@ db/*/匯入結構描述記錄
 bin/
 obj/
 /lib.ext
+/.idea

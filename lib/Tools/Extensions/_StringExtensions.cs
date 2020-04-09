@@ -8,6 +8,16 @@ namespace System
     [_DebuggerStepThrough]
     public static partial class _StringExtensions
     {
+        public static string Trim(this string s, bool nullOnEmpty = false)
+        {
+            if (s == null)
+                return null;
+            s = s.Trim();
+            if (s == string.Empty && nullOnEmpty)
+                return null;
+            return s;
+        }
+
         private static IEnumerable<string> ForEach(IEnumerable<string> names, string prefix)
         {
             foreach (string name in names)
@@ -57,6 +67,75 @@ namespace System
                         return true;
             }
             return false;
+        }
+
+        public static int Split(this string src, char separator, out string left, out string right)
+        {
+            if (src != null)
+            {
+                int n = src.IndexOf(separator);
+                if (n >= 0)
+                {
+                    left = src.Substring(0, n);
+                    right = src.Substring(n + 1);
+                    return n;
+                }
+            }
+            left = src;
+            right = "";
+            return -1;
+        }
+
+        public static int Split(this string src, string separator, out string left, out string right)
+        {
+            if (src != null)
+            {
+                for (int i = 0; i < separator.Length; i++)
+                {
+                    int n = src.IndexOf(separator[i]);
+                    if (n >= 0)
+                    {
+                        left = src.Substring(0, n);
+                        right = src.Substring(n + 1);
+                        return n;
+                    }
+                }
+            }
+            left = src;
+            right = "";
+            return -1;
+        }
+
+        public static string Substring(this string src, char l, char r, bool include)
+        {
+            if (src == null) return null;
+            int _l = src.IndexOf(l);
+            if (_l < 0) return null;
+            int _r = src.IndexOf(r, _l);
+            if (_r < 0) return null;
+            int len = _r - _l;
+            if (include)
+            {
+                len++;
+            }
+            else
+            {
+                len--;
+                _l++;
+            }
+            if (len > 0)
+                return src.Substring(_l, len);
+            return null;
+        }
+
+        public static string ReplaceAll(this string s, string oldValue, string newValue)
+        {
+            if (s != null)
+            {
+                while (s.Contains(oldValue))
+                    s.Replace(oldValue, newValue);
+            }
+            return s;
         }
 
         public static string ToHexString(this byte[] array, string format = "{0:x2}", string prefix = "0x")

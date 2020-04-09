@@ -26,7 +26,12 @@ namespace GLT_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddConfigurationBinder();
+
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson();
+            services.AddRazorPages();
+
 
             services.AddSwaggerGen(c =>
             {
@@ -48,6 +53,7 @@ namespace GLT_API
                 //    return x.FullName;
                 //});
             });
+            services.AddSwaggerGenNewtonsoftSupport();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,7 +69,7 @@ namespace GLT_API
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -76,6 +82,8 @@ namespace GLT_API
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            app.UseSwagger();
 
             app.UseSwaggerUI(c =>
             {

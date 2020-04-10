@@ -1,18 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.Swagger;
 
-namespace GLT_API
+namespace GLT
 {
     public class Startup
     {
@@ -28,7 +21,8 @@ namespace GLT_API
         {
             services.AddConfigurationBinder();
 
-            services.AddControllersWithViews()
+            services
+                .AddControllersWithViews()
                 .AddNewtonsoftJson();
             services.AddRazorPages();
 

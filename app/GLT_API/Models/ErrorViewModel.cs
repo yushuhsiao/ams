@@ -1,6 +1,6 @@
 using System;
 
-namespace GLT_API.Models
+namespace GLT.Models
 {
     public class ErrorViewModel
     {

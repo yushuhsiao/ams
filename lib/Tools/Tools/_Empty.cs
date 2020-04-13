@@ -4,10 +4,11 @@ using System.Diagnostics;
 namespace System
 {
     [DebuggerStepThrough]
-    public static class _Empty<T> where T : new()
+    public static class _Empty<T>
     {
+        public static readonly T[] Array = new T[0];
         public static readonly IEnumerable<T> List = new List<T>();
-        public static readonly T Object = new T();
+        public static readonly T Object = (T)Activator.CreateInstance(typeof(T));
     }
     [DebuggerStepThrough]
     public static class _Empty

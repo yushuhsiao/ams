@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace StackExchange.Redis
@@ -14,21 +15,32 @@ namespace StackExchange.Redis
         bool IsAlive { get; }
         void CloseConnection();
 
-        Task<T> GetObject<T>(RedisKey key);
-        Task<bool> SetObject<T>(RedisKey key, T obj, TimeSpan? expiry = null, When when = When.Always);
-        Task<bool> KeyExists(RedisKey key);
-        Task<bool> KeyDelete(RedisKey key);
+        Task<T> GetObjectAsync<T>(RedisKey key);
+        Task<bool> SetObjectAsync<T>(RedisKey key, T obj, TimeSpan? expiry = null, When when = When.Always);
+
+        RedisValue StringGet(RedisKey key);
+        bool StringSet(RedisKey key, RedisValue value, TimeSpan? expiry = null);
+        bool KeyDelete(RedisKey key);
+        long Publish(RedisChannel channel, RedisValue message, CommandFlags flags = CommandFlags.None);
+
+        Task<bool> KeyExistsAsync(RedisKey key);
+        Task<bool> KeyDeleteAsync(RedisKey key);
         Task<List<string>> GetKeys(string host, int db);
-        Task<bool> SetString(RedisKey key, string value, TimeSpan? expiry = null, When when = When.Always, CommandFlags flags = CommandFlags.None);
-        Task<string> GetString(RedisKey key, CommandFlags flags = CommandFlags.None);
+        Task<string> StringGetAsync(RedisKey key, CommandFlags flags = CommandFlags.None);
+        Task<bool> StringSetAsync(RedisKey key, string value, TimeSpan? expiry = null, When when = When.Always, CommandFlags flags = CommandFlags.None);
         //void Test();
     }
 
     public static class RedisConnectionExtensions
     {
-        public static async Task<IRedisConnection> GetRedisConnection(this IServiceProvider service, string configuration)
+        public static async Task<IRedisConnection> GetRedisConnectionAsync(this IServiceProvider service, string configuration)
         {
-            return await service.GetService<_RedisConnectionPool>().GetConnection(configuration);
+            return await service.GetService<_RedisConnectionPool>().GetConnectionAsync(configuration);
+        }
+
+        public static IRedisConnection GetRedisConnection(this IServiceProvider service, string configuration)
+        {
+            return service.GetService<_RedisConnectionPool>().GetConnection(configuration);
         }
 
         public static IServiceCollection AddRedisConnectionPool(this IServiceCollection services)
@@ -54,7 +66,7 @@ namespace StackExchange.Redis
                 _logger = logger;
             }
 
-            public async Task<_RedisConnection> GetConnection(string configuration)
+            public async Task<_RedisConnection> GetConnectionAsync(string configuration)
             {
                 if (this.GetFromPool(configuration, out var conn))
                     return await Task.FromResult(conn);
@@ -75,6 +87,29 @@ namespace StackExchange.Redis
                     }
                 }
                 return await Task.FromResult(_null_item);
+            }
+
+            public _RedisConnection GetConnection(string configuration)
+            {
+                if (this.GetFromPool(configuration, out var conn))
+                    return conn;
+
+                if (!string.IsNullOrEmpty(configuration))
+                {
+                    try
+                    {
+                        var multiplexer = ConnectionMultiplexer.Connect(configuration);
+                        return new _RedisConnection(this, multiplexer)
+                        {
+                            configuration = configuration
+                        };
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, $"Failed to connect redis : {configuration}.");
+                    }
+                }
+                return _null_item;
             }
 
             private bool GetFromPool(string configuration, out _RedisConnection result)
@@ -131,6 +166,12 @@ namespace StackExchange.Redis
                 return t.TotalSeconds >= timeout;
             }
 
+            public void CloseConnection(Exception ex, string msg, [CallerMemberName] string caller = null)
+            {
+                CloseConnection();
+                _owner._logger.LogError(ex, $"Error : {caller}({msg})");
+            }
+
             public void CloseConnection()
             {
                 using (var m = Multiplexer)
@@ -150,7 +191,7 @@ namespace StackExchange.Redis
             //    n = _database.ListLeftPush("a", "3");
             //}
 
-            public async Task<T> GetObject<T>(RedisKey key)
+            public async Task<T> GetObjectAsync<T>(RedisKey key)
             {
                 if (this.IsAlive)
                 {
@@ -178,7 +219,7 @@ namespace StackExchange.Redis
                 return await Task.FromResult<T>(default(T));
             }
 
-            public async Task<bool> SetObject<T>(RedisKey key, T obj, TimeSpan? expiry = null, When when = When.Always)
+            public async Task<bool> SetObjectAsync<T>(RedisKey key, T obj, TimeSpan? expiry = null, When when = When.Always)
             {
                 if (this.IsAlive)
                 {
@@ -196,7 +237,7 @@ namespace StackExchange.Redis
                 return await Task.FromResult(false);
             }
 
-            public async Task<string> GetString(RedisKey key, CommandFlags flags = CommandFlags.None)
+            public async Task<string> StringGetAsync(RedisKey key, CommandFlags flags = CommandFlags.None)
             {
                 if (this.IsAlive)
                 {
@@ -213,7 +254,7 @@ namespace StackExchange.Redis
                 return await Task.FromResult(default(string));
             }
 
-            public async Task<bool> SetString(RedisKey key, string value, TimeSpan? expiry = null, When when = When.Always, CommandFlags flags = CommandFlags.None)
+            public async Task<bool> StringSetAsync(RedisKey key, string value, TimeSpan? expiry = null, When when = When.Always, CommandFlags flags = CommandFlags.None)
             {
                 if (this.IsAlive)
                 {
@@ -230,7 +271,7 @@ namespace StackExchange.Redis
                 return await Task.FromResult(false);
             }
 
-            public async Task<bool> KeyExists(RedisKey key)
+            public async Task<bool> KeyExistsAsync(RedisKey key)
             {
                 if (this.IsAlive)
                 {
@@ -247,7 +288,7 @@ namespace StackExchange.Redis
                 return await Task.FromResult(false);
             }
 
-            public async Task<bool> KeyDelete(RedisKey key)
+            public async Task<bool> KeyDeleteAsync(RedisKey key)
             {
                 if (this.IsAlive)
                 {
@@ -288,6 +329,48 @@ namespace StackExchange.Redis
                     }
                 }
                 return null;
+            }
+
+
+
+            public RedisValue StringGet(RedisKey key)
+            {
+                if (this.IsAlive)
+                {
+                    try { return this._database.StringGet(key); }
+                    catch (Exception ex) { CloseConnection(ex, key); }
+                }
+                return default(RedisValue);
+            }
+
+            public bool StringSet(RedisKey key, RedisValue value, TimeSpan? expiry = null)
+            {
+                if (this.IsAlive)
+                {
+                    try { return this._database.StringSet(key, value, expiry: expiry); }
+                    catch (Exception ex) { CloseConnection(ex, $"{key}"); }
+                }
+                return false;
+            }
+
+            public bool KeyDelete(RedisKey key)
+            {
+                if (this.IsAlive)
+                {
+                    try { return this._database.KeyDelete(key); }
+                    catch (Exception ex) { CloseConnection(ex, $"{key}"); }
+                }
+                return false;
+            }
+
+            public long Publish(RedisChannel channel, RedisValue message, CommandFlags flags = CommandFlags.None)
+            {
+                if (this.IsAlive)
+                {
+                    try { return this._database.Publish(channel, message, flags); }
+                    catch (Exception ex) { CloseConnection(ex, $"{channel}"); }
+                }
+                return 0;
             }
         }
     }

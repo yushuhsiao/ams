@@ -8,9 +8,11 @@ namespace Microsoft.Extensions.Configuration
     {
         public const string ConnectionStrings = "ConnectionStrings";
 
+        public string SectionName { get; set; }
         public string Key { get; set; }
         
         public AppSettingAttribute() { }
-        public AppSettingAttribute(string key) { this.Key = key; }
+        public AppSettingAttribute(string key) : this(null, key) { }
+        public AppSettingAttribute(string sectionName, string key) { this.SectionName = sectionName; this.Key = key; }
     }
 }

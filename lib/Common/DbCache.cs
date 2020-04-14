@@ -21,7 +21,7 @@ namespace GLT
         private ILogger<DbCache> _logger;
         private IConfiguration<DbCache> _config;
 
-        internal DbCache(IServiceProvider services)
+        public DbCache(IServiceProvider services)
         {
             this._services = services;
             this._config = services.GetRequiredService<IConfiguration<DbCache>>();

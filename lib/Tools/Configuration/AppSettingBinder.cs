@@ -34,16 +34,15 @@ namespace Microsoft.Extensions.Configuration
 
         public static TValue GetValue<TValue>(this IConfiguration configuration, [CallerMemberName] string name = null, params object[] index)
         {
-            _Binder binder = configuration as _Binder;
-            if (binder == null)
-                return ConfigurationBinder.GetValue(configuration, name, default(TValue));
-            return binder.OnGetValue<TValue>(configuration, name, index);
+            if (configuration is _Binder binder)
+                return binder.GetValue<TValue>(name, index);
+            return ConfigurationBinder.GetValue(configuration, name, default(TValue));
         }
 
         public abstract class Provider : ConfigurationProvider
         {
             public abstract void OnInit(IServiceProvider service);
-            public abstract bool OnGetValue<T>(string key, out T value, params object[] index);
+            public abstract bool OnGetValue<TValue>(string section, string key, out TValue value, params object[] index);
         }
 
         private abstract class _Binder
@@ -80,7 +79,7 @@ namespace Microsoft.Extensions.Configuration
             protected IServiceProvider _service;
             protected IConfiguration _configuration;
             private _BinderMember[] _members;
-            private Provider _provider;
+            //private Provider _provider;
 
             public _Binder(IServiceProvider service, IConfiguration configuration)
             {
@@ -92,10 +91,10 @@ namespace Microsoft.Extensions.Configuration
                 {
                     foreach (var provider in configRoot.Providers)
                     {
-                        if (provider is Provider obj)
+                        if (provider is Provider _provider)
                         {
-                            _provider = obj;
-                            obj.OnInit(service);
+                            //_provider = obj;
+                            _provider.OnInit(service);
                         }
                     }
                 }
@@ -124,11 +123,8 @@ namespace Microsoft.Extensions.Configuration
 
             protected abstract Type CallerType { get; }
 
-            public TValue OnGetValue<TValue>(IConfiguration configuration, string name, params object[] index)
+            public TValue GetValue<TValue>(string name, params object[] index)
             {
-                if (configuration == null)
-                    return default;
-
                 if (name == null)
                     return default;
 
@@ -137,13 +133,31 @@ namespace Microsoft.Extensions.Configuration
                     _BinderMember item = _members[i];
                     if (item.Member.Name == name)
                     {
+                        string _section = item.src.SectionName;
                         string _key = item.src.Key ?? item.Member.Name;
                         TValue defaultValue = item.GetDefaultValue<TValue>();
 
-                        if (_provider != null && _provider.OnGetValue<TValue>(_key, out var _value, index))
-                            return _value;
+                        //if (_provider != null && _provider.OnGetValue(_section, _key, out TValue _value, index))
+                        //    return _value;
 
-                        return _configuration.GetValue<TValue>(_key, defaultValue);
+                        string key;
+                        if (string.IsNullOrEmpty(_section))
+                            key = _key;
+                        else
+                            key = $"{_section}:{_key}";
+                        //else
+                        //{
+                        //}
+
+                        //if (!string.IsNullOrEmpty(_section))
+                        //{
+                        //    var section = _configuration.GetSection(_section);
+                        //    if (section == null)
+                        //        return defaultValue;
+                        //    else
+                        //        return section.GetValue<TValue>(_key, defaultValue);
+                        //}
+                        return _configuration.GetValue(key, defaultValue);
                     }
                 }
                 return default;

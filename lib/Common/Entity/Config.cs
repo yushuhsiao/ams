@@ -5,12 +5,14 @@ using System.Text;
 
 namespace GLT.Entity
 {
-    [TableName("Confiig", Database = _Consts.db.CoreDB)]
+    [TableName("Config", Database = _Consts.db.CoreDB)]
     public class Config
     {
+        public int Id { get; set; }
         public int CorpId { get; set; }
         public string Key1 { get; set; }
         public string Key2 { get; set; }
         public string Value { get; set; }
+        public string Description { get; set; }
     }
 }

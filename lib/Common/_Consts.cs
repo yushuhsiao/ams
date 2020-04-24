@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GLT
 {
-    class _Consts
+    public static class _Consts
     {
         public static class db
         {

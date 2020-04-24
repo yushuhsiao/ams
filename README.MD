@@ -4,8 +4,10 @@
     .Net Core 3.1
 
 # 開發環境
-    .Net Core SDK 3.1.200
-    建議使用 Visual Studio 2019
+    Windows 10
+    .Net Core SDK 3.1.201
+    Visual Studio 2019
+    Docker Desktop
 
 ## 引用的套件
     Microsoft.NETCore.App       v3.1.0
@@ -30,10 +32,10 @@
 
 
 # 資料夾結構
-app
-    api_test
-    GLT_API         API Server
-db                  Database Schemas
-lib                 Librarys
-    Common          Common Library
-    Tools           Utilities
+    app
+        api_test
+        GLT_API         API Server
+    db                  Database Schemas
+    lib                 Librarys
+        Common          Common Library
+        Tools           Utilities

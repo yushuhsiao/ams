@@ -7,6 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{A9
 		global.json = global.json
 		..\..\Windows\System32\drivers\etc\hosts = ..\..\Windows\System32\drivers\etc\hosts
 		NuGet.config = NuGet.config
+		README.MD = README.MD
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{F988683C-F7D7-455C-B40C-2D8EAF274263}"

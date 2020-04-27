@@ -10,3 +10,4 @@ obj/
 /lib.ext
 /.idea
 app/GLT_API/pub
+db/.vs

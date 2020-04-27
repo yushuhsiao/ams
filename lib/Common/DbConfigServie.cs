@@ -22,4 +22,14 @@ namespace GLT
         [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.db.CoreDB_R), DefaultValue(_Consts.db.CoreDB_Default)]
         public DbConnectionString CoreDB_R() => _config.GetValue<string>();
     }
+
+    public class DbConnectionService
+    {
+        public DbConfigServie Config { get; }
+
+        public DbConnectionService(IServiceProvider service)
+        {
+            this.Config = new DbConfigServie(service);
+        }
+    }
 }

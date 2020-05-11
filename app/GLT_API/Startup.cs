@@ -24,6 +24,7 @@ namespace GLT
         {
             services.TryAddSingleton<DbConnectionService>();
             services.TryAddSingleton<DbCache>();
+            services.AddHttpContextAccessor();
             services.AddConfigurationBinder();
 
             services

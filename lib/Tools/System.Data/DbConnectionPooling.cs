@@ -42,7 +42,7 @@ namespace System.Data
 
         public static IDbConnection GetDbConnection(this DbConnectionString connectionString, IServiceProvider service, Func<DbConnectionString, IDbConnection> createDbConnection)
         {
-            var httpContext = service.GetService<IHttpContextAccessor>().HttpContext;
+            var httpContext = service.GetService<IHttpContextAccessor>()?.HttpContext;
             if (httpContext == null)
             {
                 AsyncLocal<_DbConn> state;

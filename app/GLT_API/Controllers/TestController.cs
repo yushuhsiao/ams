@@ -20,7 +20,7 @@ namespace GLT.Controllers
             {
                 var c = service.GetDbCache<TestRow>((sender, values) =>
                 {
-                    return null;
+                    return new TestRow[] { new TestRow() };
                 });
                 var v = c.GetValues();
             }

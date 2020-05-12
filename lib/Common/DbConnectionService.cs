@@ -20,6 +20,9 @@ namespace GLT
 
         [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.db.CoreDB_R), DefaultValue(_Consts.db.CoreDB_Default)]
         public DbConnectionString CoreDB_R() => _config.GetValue<string>();
+
+        [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.db.CoreDB_R), DefaultValue(_Consts.db.CoreDB_Default)]
+        public DbConnectionString CoreDB_W() => _config.GetValue<string>();
     }
 
     public class DbConnectionService
@@ -33,6 +36,14 @@ namespace GLT
             this.Config = new DbConfigServie(service);
         }
 
-        public IDbConnection CoreDB_R() => Config.CoreDB_R().GetDbConnection(_service, conn => new SqlConnection(conn));
+        internal IDbConnection OpenDbConnection(DbConnectionString connectionString)
+        {
+            var conn = new SqlConnection(connectionString);
+            conn.Open();
+            return conn;
+        }
+
+        public IDbConnection CoreDB_R() => Config.CoreDB_R().GetDbConnection(_service, OpenDbConnection);
+        public IDbConnection CoreDB_W() => Config.CoreDB_W().GetDbConnection(_service, OpenDbConnection);
     }
 }

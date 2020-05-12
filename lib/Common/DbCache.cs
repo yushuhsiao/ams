@@ -51,7 +51,7 @@ namespace GLT
             }
         }
 
-        public DbCache<TValue> Get<TValue>(DbCache<TValue>.ReadDataHandler readData = null, string name = null)
+        public DbCache<TValue> Get<TValue>(DbCache<TValue>.ReadDataHandler readData = null, string dbName = _Consts.db.CoreDB, string tableName = null)
         {
             lock (_items1)
             {
@@ -63,7 +63,7 @@ namespace GLT
                     if (item != null)
                         return item;
                 }
-                item = new DbCache<TValue>(_services, this, name) { ReadData = readData };
+                item = new DbCache<TValue>(_services, this, dbName, tableName) { ReadData = readData };
                 this.Add(item);
                 return item;
             }
@@ -80,7 +80,7 @@ namespace GLT
             for (int i = 0, n = _items.Length; i < n; i++)
             {
                 IDbCache obj = _items[i];
-                if (cacheTypes.Contains(obj.Name))
+                if (cacheTypes.Contains(obj.TableName))
                     obj.PurgeCache();
             }
             GetLogger().Log(LogLevel.Information, 0, "PurgeCache");
@@ -114,13 +114,20 @@ namespace GLT
 
         internal bool RedisSetVersion(IDbCacheEntry entry, long? value)
         {
-            using (var redis = _services.GetRedisConnection(Redis_TableVer()))
+            try
             {
-                bool result;
-                if (value.HasValue)
-                    result = redis.StringSet(entry.RedisKey, value.Value.ToString(), expiry: entry.Parent.RedisKeyExpire);
-                else
-                    result = redis.KeyDelete(entry.RedisKey);
+                using (var redis = _services.GetRedisConnection(Redis_TableVer()))
+                {
+                    bool result;
+                    if (value.HasValue)
+                        result = redis.StringSet(entry.RedisKey, value.Value.ToString(), expiry: entry.Parent.RedisKeyExpire);
+                    else
+                        result = redis.KeyDelete(entry.RedisKey);
+                }
+            }
+            catch(Exception ex)
+            {
+                GetLogger().LogError(ex.Message);
             }
             return false;
         }
@@ -178,6 +185,9 @@ namespace GLT
 
         //private object sync_redis = new object();
         private object sync_sql = new object();
+        private IDbConnection dbConn_r = null;
+        private IDbConnection dbConn_w = null;
+
         //private RedisSubscriber<UpdateMessage2> _redis;
         //private ConnectionMultiplexer _mux;
         //private IDatabase _db;
@@ -222,19 +232,17 @@ namespace GLT
 
         internal bool SqlGetVersion(IDbCacheEntry entry, out long value)
         {
-            value = default;
-            return false;
-            //return sql_exec(false, "TableVer_get", _services.GetService<DataService>().ConnectionStrings.CoreDB_R(), entry, out value);
+            var cn = _services.GetService<DbConnectionService>().Config.CoreDB_R();
+            return sql_exec("TableVer_get", cn, ref dbConn_r, entry, out value);
         }
 
         internal bool SqlSetVersion(IDbCacheEntry entry, out long value)
         {
-            value = default;
-            return false;
-            //return sql_exec(true, "TableVer_set", _services.GetService<DataService>().ConnectionStrings.CoreDB_W(), entry, out value);
+            var cn = _services.GetService<DbConnectionService>().Config.CoreDB_W();
+            return sql_exec("TableVer_set", cn, ref dbConn_w, entry, out value);
         }
 
-        private bool sql_exec(bool isWrite, string sp, DbConnectionString cn, IDbCacheEntry entry, out long value)
+        private bool sql_exec(string sp, DbConnectionString cn, ref IDbConnection conn, IDbCacheEntry entry, out long value)
         {
             for (int r = 0; r < 3; r++)
             {
@@ -242,35 +250,45 @@ namespace GLT
                 {
                     lock (sync_sql)
                     {
-                        //using (IDbConnection conn = cn.OpenDbConnection(_services, this))
-                        using (IDbConnection conn = cn.GetDbConnection(_services, _cn => new SqlConnection(cn.Value)))
-                        {
-                            var param = new
-                            {
-                                name = sql_name(entry.Parent.Name),
-                                index = entry.Index
-                            };
-                            object tmp1;
+                        if (conn == null)
+                            conn = _services.GetService<DbConnectionService>().OpenDbConnection(cn);
 
-                            try
+                        var param = new
+                        {
+                            db = sql_DbName(entry.Parent.DbName),
+                            table = sql_TableName(entry.Parent.TableName),
+                            index = entry.Index
+                        };
+                        object tmp1;
+
+                        try
+                        {
+                            IDbTransaction tran = null;
+                            bool isWrite = object.ReferenceEquals(conn, this.dbConn_w);
+                            if (isWrite) tran = conn.BeginTransaction();
+                            using (tran)
                             {
-                                IDbTransaction tran = null;
-                                if (isWrite) tran = conn.BeginTransaction();
-                                using (tran)
-                                {
-                                    tmp1 = conn.ExecuteScalar(sp, param, transaction: tran, commandType: CommandType.StoredProcedure);
-                                    tran?.Commit();
-                                }
+                                tmp1 = conn.ExecuteScalar(sp, param, transaction: tran, commandType: CommandType.StoredProcedure);
+                                tran?.Commit();
                             }
-                            catch
+                        }
+                        catch
+                        {
+                            using (var _conn = conn)
                             {
+                                conn = null;
                                 throw;
                             }
-                            if (SqlTimeStamp.Create(tmp1, out SqlTimeStamp tmp2))
-                            {
-                                value = tmp2;
-                                return true;
-                            }
+                        }
+                        if (SqlTimeStamp.Create(tmp1, out SqlTimeStamp tmp2))
+                        {
+                            value = tmp2;
+                            return true;
+                        }
+                        else
+                        {
+                            value = 0;
+                            return true;
                         }
                     }
                 }
@@ -284,7 +302,15 @@ namespace GLT
         }
 
         [DebuggerStepThrough]
-        private static string sql_name(string name)
+        private static string sql_DbName(string name)
+        {
+            if (name.Length > 20)
+                return name.Substring(20);
+            return name;
+        }
+
+        [DebuggerStepThrough]
+        private static string sql_TableName(string name)
         {
             if (name.Length > 30)
                 return name.Substring(30);
@@ -337,7 +363,8 @@ namespace GLT
 
     internal interface IDbCache
     {
-        string Name { get; }
+        string DbName { get; }
+        string TableName { get; }
         void PurgeCache();
         TimeSpan RedisKeyExpire { get; }
     }
@@ -499,14 +526,14 @@ namespace GLT
         public Entry Default => this[0];
         //private IServiceProvider _services;
 
-        internal DbCache(IServiceProvider services, DbCache dbCache, string name)
+        internal DbCache(IServiceProvider services, DbCache dbCache, string dbName, string tableName)
         {
             //this._services = services;
             //this.__logger = services.GetRequiredService<ILogger<DbCache<TValue>>>();
             this.Root = dbCache;
             this.Root.Add(this);
             Interlocked.Exchange(ref this._entrys2, new Entry[] { new Entry(this, 0) });
-            this.SetName(name);
+            this.SetName(dbName, tableName);
         }
 
         private readonly object _sync = new object();
@@ -538,7 +565,8 @@ namespace GLT
             }   //
         }
 
-        public string Name { get; private set; }
+        public string DbName { get; private set; }
+        public string TableName { get; private set; }
 
         //private ILogger _logger;
         //private ILogger GetLogger()
@@ -553,9 +581,11 @@ namespace GLT
 
         #region SetName
 
-        private void SetName(string value)
+        private void SetName(string dbName, string tableName)
         {
-            this.Name = value.Trim(true) ?? TableName<TValue>.Value.Trim(true) ?? typeof(TValue).Name;
+            var attr = TableName<TValue>._;
+            this.DbName = dbName.Trim(true) ?? attr?.Database?.Trim(true) ?? _Consts.db.CoreDB;
+            this.TableName = tableName.Trim(true) ?? attr?.TableName?.Trim(true) ?? typeof(TValue).Name;
             var entrys = Interlocked.CompareExchange(ref this._entrys2, null, null);
             for (int i = 0, n = entrys.Length; i < n; i++)
                 entrys[i].SetName();
@@ -564,7 +594,7 @@ namespace GLT
         {
             internal void SetName()
             {
-                this.RedisKey = $"{Parent.Name}.{Index}";
+                this.RedisKey = $"{Parent.DbName}.{Parent.TableName}.{Index}";
             }
         }
 

@@ -36,14 +36,22 @@ namespace GLT
             this.Config = new DbConfigServie(service);
         }
 
-        internal IDbConnection OpenDbConnection(DbConnectionString connectionString)
+        private IDbConnection OpenDbConnection(DbConnectionString connectionString)
         {
             var conn = new SqlConnection(connectionString);
             conn.Open();
             return conn;
         }
 
-        public IDbConnection CoreDB_R() => Config.CoreDB_R().GetDbConnection(_service, OpenDbConnection);
-        public IDbConnection CoreDB_W() => Config.CoreDB_W().GetDbConnection(_service, OpenDbConnection);
+        public IDbConnection CoreDB_R(bool nonPooling = false)
+        {
+            if (nonPooling) return OpenDbConnection(Config.CoreDB_R());
+            return Config.CoreDB_R().GetDbConnection(_service, OpenDbConnection);
+        }
+        public IDbConnection CoreDB_W(bool nonPooling = false)
+        {
+            if (nonPooling) return OpenDbConnection(Config.CoreDB_W());
+            return Config.CoreDB_W().GetDbConnection(_service, OpenDbConnection);
+        }
     }
 }

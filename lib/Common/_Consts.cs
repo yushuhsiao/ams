@@ -6,6 +6,13 @@ namespace GLT
 {
     public static class _Consts
     {
+        public static class Redis
+        {
+            public const string Key1 = "Redis";
+
+            public const string TableVer = "TableVer";
+            public const string TableVer_DefaultValue = "redis01:6379,defaultDatabase=1";
+        }
         public static class db
         {
             public const string CoreDB = "GLT_Core";

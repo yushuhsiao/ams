@@ -8,6 +8,8 @@ namespace GLT.Entity
     [TableName("Config", Database = _Consts.db.CoreDB)]
     public class Config
     {
+        internal string Key;
+
         public int Id { get; set; }
         public int CorpId { get; set; }
         public string Key1 { get; set; }

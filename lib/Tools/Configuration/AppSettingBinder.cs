@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.Configuration
         }
 
 
-        public static TValue GetValue<TValue>(this IConfiguration configuration, [CallerMemberName] string name = null, params object[] index)
+        public static TValue GetValue<TValue>(this IConfiguration configuration, [CallerMemberName] string name = null, int index = 0)
         {
             if (configuration is _Binder binder)
                 return binder.GetValue<TValue>(name, index);
@@ -42,7 +42,7 @@ namespace Microsoft.Extensions.Configuration
         public abstract class Provider : ConfigurationProvider
         {
             public abstract void OnInit(IServiceProvider service);
-            public abstract bool OnGetValue<TValue>(string section, string key, out TValue value, params object[] index);
+            //public abstract bool OnGetValue<TValue>(string section, string key, out TValue value, params object[] index);
         }
 
         private abstract class _Binder
@@ -123,7 +123,7 @@ namespace Microsoft.Extensions.Configuration
 
             protected abstract Type CallerType { get; }
 
-            public TValue GetValue<TValue>(string name, params object[] index)
+            public TValue GetValue<TValue>(string name, int index)
             {
                 if (name == null)
                     return default;
@@ -142,9 +142,16 @@ namespace Microsoft.Extensions.Configuration
 
                         string key;
                         if (string.IsNullOrEmpty(_section))
-                            key = _key;
-                        else
+                        {
+                            if (index == 0)
+                                key = _key;
+                            else
+                                key = $"{_key}:{index}";
+                        }
+                        else if (index==0)
                             key = $"{_section}:{_key}";
+                        else
+                            key = $"{_section}:{_key}:{index}";
                         //else
                         //{
                         //}

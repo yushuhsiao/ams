@@ -15,15 +15,11 @@ namespace GLT.Controllers
         [HttpGet]
         public void Test([FromServices] IServiceProvider service)
         {
-            var ss = service.GetService<DbConnectionService>();
-            using (var xx = ss.CoreDB_R())
+            var c = service.GetDbCache<TestRow>((sender, values) =>
             {
-                var c = service.GetDbCache<TestRow>((sender, values) =>
-                {
-                    return new TestRow[] { new TestRow() };
-                });
-                var v = c.GetValues();
-            }
+                return new TestRow[] { new TestRow() };
+            });
+            var v = c.GetValues();
         }
 
     }

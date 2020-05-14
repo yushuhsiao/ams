@@ -36,66 +36,87 @@ namespace GLT
     public class SqlAppSettingsConfigurationProvider : AppSettingBinder.Provider
     {
         private IServiceProvider _service;
-        private DbConfigServie _connectionService;
+        //private DbConnectionService _dbCnnectionService;
         private DbCache<Entity.Config> _dbCache;
 
         public override void OnInit(IServiceProvider service)
         {
             var obj = Interlocked.CompareExchange(ref _service, service, null);
-            if (obj != null) return;
-            //Interlocked.Exchange(ref _connectionService, _service.GetService<DbConfigServie>());
+            if (obj == null) return;
+            //Interlocked.Exchange(ref _dbCnnectionService, _service.GetService<DbConnectionService>());
             Interlocked.Exchange(ref _dbCache, _service.GetDbCache<Entity.Config>(ReadData));
         }
 
         private IEnumerable<Entity.Config> ReadData(DbCache<Entity.Config>.Entry sender, Entity.Config[] oldValue)
         {
-            var _dataService = Interlocked.CompareExchange(ref this._connectionService, null, null);
-            if (_dataService != null)
+            var _service = Interlocked.CompareExchange(ref this._service, null, null);
+            if (_service == null)
+                return null;
+            var _dbCnnectionService = _service.GetService<DbConnectionService>();
+            string sql = $"select * from {TableName<Entity.Config>.Value} where CorpId = {sender.Index}";
+            using (var conn = _dbCnnectionService.CoreDB_R(nonPooling: true))
             {
-                string sql = $"select * from {TableName<Entity.Config>.Value} where CorpId = {sender.Index}";
-                var cn = _dataService.CoreDB_R();
-                using (IDbConnection conn = cn.GetDbConnection(_service, null))
-                    return conn.Query<Entity.Config>(sql);
-            }
-            return null;
-        }
-
-        public override bool OnGetValue<TValue>(string section, string key, out TValue value, params object[] index)
-        {
-            var service = Interlocked.CompareExchange(ref _service, null, null);
-            if (service != null)
-            {
-            }
-            value = default;
-            return false;
-        }
-
-        public bool OnGetValue(string section, string key, out string value, params object[] index)
-        {
-            var _dbCacahe = Interlocked.CompareExchange(ref this._dbCache, null, null);
-            if (_dbCacahe != null)
-            {
-                int corpId = 0;
-                for (int i = 0; i < index.Length; i++)
-                    if (index[i] is int)
-                        corpId = (int)index[i];
-                var values = _dbCache.GetValues(index: corpId);
-                for (int i = 0; i < values.Length; i++)
+                var rows = conn.Query<Entity.Config>(sql);
+                foreach (var row in rows)
                 {
-                    var n = values[i];
-                    //if (n.CorpId != corpId) continue;
-                    if (n.Key1.IsNotEquals(section)) continue;
-                    if (n.Key2.IsNotEquals(key)) continue;
-                    value = n.Value;
-                    return true;
+                    if (row.CorpId == 0)
+                        row.Key = $"{row.Key1}:{row.Key2}";
+                    else
+                        row.Key = $"{row.Key1}:{row.Key2}:{row.CorpId}";
                 }
+                return rows;
             }
-            value = null;
-            return false;
         }
+
+        //public bool OnGetValue<TValue>(string section, string key, out TValue value, params object[] index)
+        //{
+        //    var service = Interlocked.CompareExchange(ref _service, null, null);
+        //    if (service != null)
+        //    {
+        //    }
+        //    value = default;
+        //    return false;
+        //}
+
+        //public bool OnGetValue(string section, string key, out string value, params object[] index)
+        //{
+        //    var _dbCacahe = Interlocked.CompareExchange(ref this._dbCache, null, null);
+        //    if (_dbCacahe != null)
+        //    {
+        //        int corpId = 0;
+        //        for (int i = 0; i < index.Length; i++)
+        //            if (index[i] is int)
+        //                corpId = (int)index[i];
+        //        var values = _dbCache.GetValues(index: corpId);
+        //        for (int i = 0; i < values.Length; i++)
+        //        {
+        //            var n = values[i];
+        //            //if (n.CorpId != corpId) continue;
+        //            if (n.Key1.IsNotEquals(section)) continue;
+        //            if (n.Key2.IsNotEquals(key)) continue;
+        //            value = n.Value;
+        //            return true;
+        //        }
+        //    }
+        //    value = null;
+        //    return false;
+        //}
 
         public override bool TryGet(string key, out string value)
         {
+            var _dbCacahe = Interlocked.CompareExchange(ref this._dbCache, null, null);
+            if (_dbCacahe == null)
+                return base.TryGet(key, out value);
+            var values = _dbCacahe.GetValues();
+            for (int i = 0; i < values.Length; i++)
+            {
+                var row = values[i];
+                if (string.Compare(row.Key, key, true) == 0)
+                {
+                    value = row.Value;
+                    return true;
+                }
+            }
             return base.TryGet(key, out value);
         }
     }

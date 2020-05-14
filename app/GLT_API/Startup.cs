@@ -22,10 +22,9 @@ namespace GLT
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.TryAddSingleton<DbConnectionService>();
-            services.TryAddSingleton<DbCache>();
             services.AddHttpContextAccessor();
             services.AddConfigurationBinder();
+            services.AddDbCache();
 
             services
                 .AddControllersWithViews()

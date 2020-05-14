@@ -1,7 +1,9 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Dapper;
+using GLT;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -9,22 +11,40 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Threading;
-using System.Threading.Tasks;
-using Dapper;
-using System.Data.SqlClient;
 
+namespace Microsoft.Extensions.DependencyInjection
+{
+    public static class DbCacheExtensions
+    {
+        public static IServiceCollection AddDbCache(this IServiceCollection services)
+        {
+            services.AddRedisConnectionPool();
+            services.TryAddSingleton<DbConnectionService>();
+            services.TryAddSingleton<DbCache>();
+            return services;
+        }
+    }
+}
+namespace GLT
+{
+    public static class DbCacheExtensions
+    {
+        public static DbCache<TValue> GetDbCache<TValue>(this IServiceProvider services, DbCache<TValue>.ReadDataHandler readData = null, string name = null)
+            => services.GetService<DbCache>().Get(readData, name);
+    }
+}
 namespace GLT
 {
     public class DbCache
     {
         private IServiceProvider _services;
         private ILogger<DbCache> _logger;
-        private IConfiguration<DbCache> _config;
+        private IConfiguration _config;
 
         public DbCache(IServiceProvider services)
         {
             this._services = services;
-            this._config = services.GetRequiredService<IConfiguration<DbCache>>();
+            this._config = services.GetConfiguration<DbCache>();
         }
 
         private ILogger GetLogger()
@@ -97,7 +117,7 @@ namespace GLT
 
         //[SqlConfig(Key1 = _Consts.Redis.Key1, Key2 = _Consts.Redis.TableVer), DefaultValue(1)]
         //public int Redis_TableVer() => GetConfig().GetValue<int>();
-        //[AppSetting(SectionName = _Consts.Redis.Key1, Key = _Consts.Redis.TableVer), DefaultValue(_Consts.Redis.TableVer_DefaultValue)]
+        [AppSetting(SectionName = _Consts.Redis.Key1, Key = _Consts.Redis.TableVer), DefaultValue(_Consts.Redis.TableVer_DefaultValue)]
         public string Redis_TableVer() => _config.GetValue<string>();
 
         internal bool RedisGetVersion(IDbCacheEntry entry, out long value)
@@ -118,11 +138,10 @@ namespace GLT
             {
                 using (var redis = _services.GetRedisConnection(Redis_TableVer()))
                 {
-                    bool result;
                     if (value.HasValue)
-                        result = redis.StringSet(entry.RedisKey, value.Value.ToString(), expiry: entry.Parent.RedisKeyExpire);
+                        return redis.StringSet(entry.RedisKey, value.Value.ToString(), expiry: entry.Parent.RedisKeyExpire);
                     else
-                        result = redis.KeyDelete(entry.RedisKey);
+                        return redis.KeyDelete(entry.RedisKey);
                 }
             }
             catch(Exception ex)
@@ -230,42 +249,45 @@ namespace GLT
         //    _db = null;
         //}
 
-        internal bool SqlGetVersion(IDbCacheEntry entry, out long value)
-        {
-            var cn = _services.GetService<DbConnectionService>().Config.CoreDB_R();
-            return sql_exec("TableVer_get", cn, ref dbConn_r, entry, out value);
-        }
+        internal bool SqlGetVersion(IDbCacheEntry entry, out long value) => sql_exec(false, entry, out value);
+        internal bool SqlSetVersion(IDbCacheEntry entry, out long value) => sql_exec(true, entry, out value);
 
-        internal bool SqlSetVersion(IDbCacheEntry entry, out long value)
+        private bool sql_exec(bool isWrite, IDbCacheEntry entry, out long value)
         {
-            var cn = _services.GetService<DbConnectionService>().Config.CoreDB_W();
-            return sql_exec("TableVer_set", cn, ref dbConn_w, entry, out value);
-        }
-
-        private bool sql_exec(string sp, DbConnectionString cn, ref IDbConnection conn, IDbCacheEntry entry, out long value)
-        {
+            string sp = isWrite ? "TableVer_set" : "TableVer_get";
+            var param = new
+            {
+                db = sql_DbName(entry.Parent.DbName),
+                table = sql_TableName(entry.Parent.TableName),
+                index = entry.Index
+            };
             for (int r = 0; r < 3; r++)
             {
                 try
                 {
                     lock (sync_sql)
                     {
-                        if (conn == null)
-                            conn = _services.GetService<DbConnectionService>().OpenDbConnection(cn);
-
-                        var param = new
+                        IDbConnection conn;
+                        IDbTransaction tran;
+                        if (isWrite)
                         {
-                            db = sql_DbName(entry.Parent.DbName),
-                            table = sql_TableName(entry.Parent.TableName),
-                            index = entry.Index
-                        };
+                            conn = this.dbConn_w;
+                            if (conn == null)
+                                conn = this.dbConn_w = _services.GetService<DbConnectionService>().CoreDB_W(nonPooling: true);
+                            tran = conn.BeginTransaction();
+                        }
+                        else
+                        {
+                            conn = this.dbConn_r;
+                            if (conn == null)
+                                conn = this.dbConn_r = _services.GetService<DbConnectionService>().CoreDB_R(nonPooling: true);
+                            tran = null;
+                        }
+
                         object tmp1;
 
                         try
                         {
-                            IDbTransaction tran = null;
-                            bool isWrite = object.ReferenceEquals(conn, this.dbConn_w);
-                            if (isWrite) tran = conn.BeginTransaction();
                             using (tran)
                             {
                                 tmp1 = conn.ExecuteScalar(sp, param, transaction: tran, commandType: CommandType.StoredProcedure);
@@ -274,11 +296,9 @@ namespace GLT
                         }
                         catch
                         {
-                            using (var _conn = conn)
-                            {
-                                conn = null;
+                            using (this.dbConn_r)
+                            using (this.dbConn_w)
                                 throw;
-                            }
                         }
                         if (SqlTimeStamp.Create(tmp1, out SqlTimeStamp tmp2))
                         {
@@ -353,12 +373,6 @@ namespace GLT
                 return false;
             }
         }
-    }
-
-    public static class DbCacheExtensions
-    {
-        public static DbCache<TValue> GetDbCache<TValue>(this IServiceProvider services, DbCache<TValue>.ReadDataHandler readData = null, string name = null)
-            => services.GetService<DbCache>().Get(readData, name);
     }
 
     internal interface IDbCache

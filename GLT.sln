@@ -5,9 +5,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".project", ".project", "{A97B8D08-C96D-4E28-9102-2E7F6644A1BD}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
-		..\..\Windows\System32\drivers\etc\hosts = ..\..\Windows\System32\drivers\etc\hosts
+		..\Windows\System32\drivers\etc\hosts = ..\Windows\System32\drivers\etc\hosts
 		NuGet.config = NuGet.config
-		README.MD = README.MD
+		readmme.md = readmme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "lib", "lib", "{F988683C-F7D7-455C-B40C-2D8EAF274263}"

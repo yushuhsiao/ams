@@ -416,13 +416,10 @@ namespace GLT
 
             private TValue[] _values;
 
-            //private ReaderWriterLockSlim sync1 = new ReaderWriterLockSlim(LockRecursionPolicy.SupportsRecursion);
             private TimeCounter timer1 = new TimeCounter(false);    // timeout
             private TimeCounter timer2 = new TimeCounter(false);    // timeout for check version from redis
 
 
-            //bool isBusy;
-            //bool isReading;
             object _busy;
             object _reading;
             private bool IsReading

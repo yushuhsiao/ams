@@ -13,6 +13,7 @@ namespace GLT.Controllers
     public class TestController : ControllerBase
     {
         [HttpGet]
+        [Api]
         public void Test([FromServices] IServiceProvider service)
         {
             var c = service.GetDbCache<TestRow>((sender, values) =>

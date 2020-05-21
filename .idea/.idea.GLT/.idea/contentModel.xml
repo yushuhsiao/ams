@@ -37,6 +37,7 @@
             <e p="HomeController.cs" t="Include" />
             <e p="TestController.cs" t="Include" />
           </e>
+          <e p="Dockerfile" t="Include" />
           <e p="GLT_API.csproj" t="IncludeRecursive" />
           <e p="Models" t="Include">
             <e p="ErrorViewModel.cs" t="Include" />
@@ -52,6 +53,260 @@
           <e p="Program.cs" t="Include" />
           <e p="Properties" t="Include">
             <e p="launchSettings.json" t="Include" />
+            <e p="PublishProfiles" t="Include">
+              <e p="FolderProfile.pubxml" t="Include" />
+              <e p="http___192.168.33.2_25000.pubxml" t="Include" />
+            </e>
+          </e>
+          <e p="pub" t="Include">
+            <e p="appsettings.Development.json" t="Include" />
+            <e p="appsettings.json" t="Include" />
+            <e p="Common.dll" t="Include" />
+            <e p="Common.pdb" t="Include" />
+            <e p="cs" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="Dapper.dll" t="Include" />
+            <e p="de" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="dotnet-aspnet-codegenerator-design.dll" t="Include" />
+            <e p="es" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="fr" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="GLT_API.deps.json" t="Include" />
+            <e p="GLT_API.dll" t="Include" />
+            <e p="GLT_API.exe" t="Include" />
+            <e p="GLT_API.pdb" t="Include" />
+            <e p="GLT_API.runtimeconfig.json" t="Include" />
+            <e p="GLT_API.Views.dll" t="Include" />
+            <e p="GLT_API.Views.pdb" t="Include" />
+            <e p="it" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="ja" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="ko" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="Microsoft.AspNetCore.JsonPatch.dll" t="Include" />
+            <e p="Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll" t="Include" />
+            <e p="Microsoft.AspNetCore.Razor.Language.dll" t="Include" />
+            <e p="Microsoft.Bcl.AsyncInterfaces.dll" t="Include" />
+            <e p="Microsoft.CodeAnalysis.CSharp.dll" t="Include" />
+            <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.dll" t="Include" />
+            <e p="Microsoft.CodeAnalysis.dll" t="Include" />
+            <e p="Microsoft.CodeAnalysis.Razor.dll" t="Include" />
+            <e p="Microsoft.CodeAnalysis.Workspaces.dll" t="Include" />
+            <e p="Microsoft.Extensions.Configuration.Abstractions.dll" t="Include" />
+            <e p="Microsoft.Extensions.Configuration.Binder.dll" t="Include" />
+            <e p="Microsoft.Extensions.Configuration.dll" t="Include" />
+            <e p="Microsoft.Extensions.DependencyInjection.Abstractions.dll" t="Include" />
+            <e p="Microsoft.Extensions.Logging.Abstractions.dll" t="Include" />
+            <e p="Microsoft.Extensions.Primitives.dll" t="Include" />
+            <e p="Microsoft.OpenApi.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGeneration.Contracts.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGeneration.Core.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGeneration.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGeneration.EntityFrameworkCore.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGeneration.Templating.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGeneration.Utils.dll" t="Include" />
+            <e p="Microsoft.VisualStudio.Web.CodeGenerators.Mvc.dll" t="Include" />
+            <e p="Newtonsoft.Json.Bson.dll" t="Include" />
+            <e p="Newtonsoft.Json.dll" t="Include" />
+            <e p="NuGet.Frameworks.dll" t="Include" />
+            <e p="Pipelines.Sockets.Unofficial.dll" t="Include" />
+            <e p="pl" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="pt-BR" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="pub" t="Include">
+              <e p="appsettings.Development.json" t="Include" />
+              <e p="appsettings.json" t="Include" />
+              <e p="GLT_API.deps.json" t="Include" />
+              <e p="GLT_API.runtimeconfig.json" t="Include" />
+              <e p="pub" t="Include">
+                <e p="appsettings.Development.json" t="Include" />
+                <e p="appsettings.json" t="Include" />
+                <e p="GLT_API.deps.json" t="Include" />
+                <e p="GLT_API.runtimeconfig.json" t="Include" />
+                <e p="web.config" t="Include" />
+              </e>
+              <e p="web.config" t="Include" />
+            </e>
+            <e p="ru" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="runtimes" t="Include">
+              <e p="unix" t="Include">
+                <e p="lib" t="Include">
+                  <e p="netcoreapp2.1" t="Include">
+                    <e p="System.Data.SqlClient.dll" t="Include" />
+                  </e>
+                </e>
+              </e>
+              <e p="win" t="Include">
+                <e p="lib" t="Include">
+                  <e p="netcoreapp2.0" t="Include">
+                    <e p="System.Diagnostics.PerformanceCounter.dll" t="Include" />
+                  </e>
+                  <e p="netcoreapp2.1" t="Include">
+                    <e p="System.Data.SqlClient.dll" t="Include" />
+                  </e>
+                  <e p="netstandard2.0" t="Include">
+                    <e p="System.Security.Cryptography.ProtectedData.dll" t="Include" />
+                  </e>
+                </e>
+              </e>
+              <e p="win-arm64" t="Include">
+                <e p="native" t="Include">
+                  <e p="sni.dll" t="Include" />
+                </e>
+              </e>
+              <e p="win-x64" t="Include">
+                <e p="native" t="Include">
+                  <e p="sni.dll" t="Include" />
+                </e>
+              </e>
+              <e p="win-x86" t="Include">
+                <e p="native" t="Include">
+                  <e p="sni.dll" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="StackExchange.Redis.dll" t="Include" />
+            <e p="Swashbuckle.AspNetCore.Newtonsoft.dll" t="Include" />
+            <e p="Swashbuckle.AspNetCore.Swagger.dll" t="Include" />
+            <e p="Swashbuckle.AspNetCore.SwaggerGen.dll" t="Include" />
+            <e p="Swashbuckle.AspNetCore.SwaggerUI.dll" t="Include" />
+            <e p="System.Composition.AttributedModel.dll" t="Include" />
+            <e p="System.Composition.Convention.dll" t="Include" />
+            <e p="System.Composition.Hosting.dll" t="Include" />
+            <e p="System.Composition.Runtime.dll" t="Include" />
+            <e p="System.Composition.TypedParts.dll" t="Include" />
+            <e p="System.Configuration.ConfigurationManager.dll" t="Include" />
+            <e p="System.Data.SqlClient.dll" t="Include" />
+            <e p="System.Diagnostics.PerformanceCounter.dll" t="Include" />
+            <e p="System.Security.Cryptography.ProtectedData.dll" t="Include" />
+            <e p="Tools.dll" t="Include" />
+            <e p="Tools.pdb" t="Include" />
+            <e p="tr" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="web.config" t="Include" />
+            <e p="wwwroot" t="Include">
+              <e p="css" t="Include">
+                <e p="site.css" t="Include" />
+              </e>
+              <e p="favicon.ico" t="Include" />
+              <e p="js" t="Include">
+                <e p="site.js" t="Include" />
+              </e>
+              <e p="lib" t="Include">
+                <e p="bootstrap" t="Include">
+                  <e p="dist" t="Include">
+                    <e p="css" t="Include">
+                      <e p="bootstrap-grid.css" t="Include" />
+                      <e p="bootstrap-grid.css.map" t="Include" />
+                      <e p="bootstrap-grid.min.css" t="Include" />
+                      <e p="bootstrap-grid.min.css.map" t="Include" />
+                      <e p="bootstrap-reboot.css" t="Include" />
+                      <e p="bootstrap-reboot.css.map" t="Include" />
+                      <e p="bootstrap-reboot.min.css" t="Include" />
+                      <e p="bootstrap-reboot.min.css.map" t="Include" />
+                      <e p="bootstrap.css" t="Include" />
+                      <e p="bootstrap.css.map" t="Include" />
+                      <e p="bootstrap.min.css" t="Include" />
+                      <e p="bootstrap.min.css.map" t="Include" />
+                    </e>
+                    <e p="js" t="Include">
+                      <e p="bootstrap.bundle.js" t="Include" />
+                      <e p="bootstrap.bundle.js.map" t="Include" />
+                      <e p="bootstrap.bundle.min.js" t="Include" />
+                      <e p="bootstrap.bundle.min.js.map" t="Include" />
+                      <e p="bootstrap.js" t="Include" />
+                      <e p="bootstrap.js.map" t="Include" />
+                      <e p="bootstrap.min.js" t="Include" />
+                      <e p="bootstrap.min.js.map" t="Include" />
+                    </e>
+                  </e>
+                  <e p="LICENSE" t="Include" />
+                </e>
+                <e p="jquery" t="Include">
+                  <e p="dist" t="Include">
+                    <e p="jquery.js" t="Include" />
+                    <e p="jquery.min.js" t="Include" />
+                    <e p="jquery.min.map" t="Include" />
+                  </e>
+                  <e p="LICENSE.txt" t="Include" />
+                </e>
+                <e p="jquery-validation" t="Include">
+                  <e p="dist" t="Include">
+                    <e p="additional-methods.js" t="Include" />
+                    <e p="additional-methods.min.js" t="Include" />
+                    <e p="jquery.validate.js" t="Include" />
+                    <e p="jquery.validate.min.js" t="Include" />
+                  </e>
+                  <e p="LICENSE.md" t="Include" />
+                </e>
+                <e p="jquery-validation-unobtrusive" t="Include">
+                  <e p="jquery.validate.unobtrusive.js" t="Include" />
+                  <e p="jquery.validate.unobtrusive.min.js" t="Include" />
+                  <e p="LICENSE.txt" t="Include" />
+                </e>
+              </e>
+            </e>
+            <e p="zh-Hans" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
+            <e p="zh-Hant" t="Include">
+              <e p="Microsoft.CodeAnalysis.CSharp.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.resources.dll" t="Include" />
+              <e p="Microsoft.CodeAnalysis.Workspaces.resources.dll" t="Include" />
+            </e>
           </e>
           <e p="publish.bat" t="Include" />
           <e p="Startup.cs" t="Include" />
@@ -137,10 +392,11 @@
       <e p="lib" t="Include">
         <e p="Common" t="IncludeRecursive">
           <e p="_Consts.cs" t="Include" />
+          <e p="ApiAttribute.cs" t="Include" />
           <e p="bin" t="ExcludeRecursive" />
           <e p="Common.csproj" t="IncludeRecursive" />
           <e p="DbCache.cs" t="Include" />
-          <e p="DbConfigServie.cs" t="Include" />
+          <e p="DbConnectionService.cs" t="Include" />
           <e p="Defines" t="Include">
             <e p="Active.cs" t="Include" />
             <e p="Currency.cs" t="Include" />
@@ -150,14 +406,20 @@
           </e>
           <e p="Entity" t="Include">
             <e p="Config.cs" t="Include" />
+            <e p="Currency.cs" t="Include" />
+            <e p="Enums.cs" t="Include" />
+            <e p="Lang.cs" t="Include" />
           </e>
           <e p="JsonHelper.cs" t="Include" />
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
-              <e p="netstandard2.0" t="Include">
+              <e p="netcoreapp3.1" t="Include">
                 <e p="Common.AssemblyInfo.cs" t="Include" />
               </e>
             </e>
+          </e>
+          <e p="Properties" t="Include">
+            <e p="launchSettings.json" t="Include" />
           </e>
           <e p="SqlAppSettings.cs" t="Include" />
         </e>
@@ -211,8 +473,8 @@
       </e>
       <e p="NuGet.config" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
-      <e p="README.MD" t="Include" />
+      <e p="readmme.md" t="Include" />
     </e>
-    <e p="$USER_HOME$/Windows/System32/drivers/etc/hosts" t="Include" />
+    <e p="$PROJECT_DIR$/../Windows/System32/drivers/etc/hosts" t="Include" />
   </component>
 </project>

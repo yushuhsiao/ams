@@ -18,7 +18,10 @@
     Swashbuckle.AspNetCore      v5.3.3
 
 ## 計劃項目
-    docker 設定
+    會員資料庫/相關處理程序
+    展示用後台 - 採用 razor pages 或 server-side blazor 實作, 原則上就是 server-rending + vue.js
+    展示用錢台 - 最終是要以 app 的形式實作, 展示階段用 client-side blazor 代替
+
 
 
 # 資料庫

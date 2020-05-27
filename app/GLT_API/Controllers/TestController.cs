@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace GLT.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class TestController : ControllerBase
     {
@@ -21,6 +21,11 @@ namespace GLT.Controllers
                 return new TestRow[] { new TestRow() };
             });
             var v = c.GetValues();
+        }
+
+        [HttpGet]
+        public void Test2()
+        {
         }
 
     }

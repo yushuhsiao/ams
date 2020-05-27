@@ -55,7 +55,8 @@
             <e p="launchSettings.json" t="Include" />
             <e p="PublishProfiles" t="Include">
               <e p="FolderProfile.pubxml" t="Include" />
-              <e p="http___192.168.33.2_25000.pubxml" t="Include" />
+              <e p="local docker registry.pubxml" t="Include" />
+              <e p="macOS docker registry  (192.168.33.2).pubxml" t="Include" />
             </e>
           </e>
           <e p="pub" t="Include">
@@ -473,7 +474,7 @@
       </e>
       <e p="NuGet.config" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
-      <e p="readmme.md" t="Include" />
+      <e p="readme.md" t="Include" />
     </e>
     <e p="$PROJECT_DIR$/../Windows/System32/drivers/etc/hosts" t="Include" />
   </component>

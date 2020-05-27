@@ -1,0 +1,36 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "GLT_API",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/app/GLT_API/bin/Debug/netcoreapp3.1/GLT_API.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/app/GLT_API",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_URLS" : "http://+:7001",
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}/swagger"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/app/GLT_API/Views"
+            }
+        }
+
+        
+
+    ]
+}

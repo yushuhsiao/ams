@@ -54,4 +54,8 @@ namespace GLT
             return Config.CoreDB_W().GetDbConnection(_service, OpenDbConnection);
         }
     }
+
+    //internal class DbConnectionFactory : MiniProfiler.Integrations.IDbConnectionFactory
+    //{
+    //}
 }

@@ -2,11 +2,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.Data;
-using System.Data.SqlClient;
 
 namespace GLT
 {
@@ -25,6 +22,7 @@ namespace GLT
             services.AddHttpContextAccessor();
             services.AddConfigurationBinder();
             services.AddDbCache();
+            services.AddSingleton<AclDefineService>();
 
             services
                 .AddControllers()
@@ -90,6 +88,8 @@ namespace GLT
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GLT API");
             });
+
+            app.ApplicationServices.GetService<AclDefineService>().Init();
         }
     }
 }

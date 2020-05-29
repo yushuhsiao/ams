@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GLT
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method | AttributeTargets.Assembly, AllowMultiple = true)]
     public class ApiAttribute : Attribute, IActionFilter, IResultFilter, IExceptionFilter
     {
         public ApiAttribute()

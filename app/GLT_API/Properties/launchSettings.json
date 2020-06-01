@@ -12,10 +12,10 @@
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:7001",
-      "launchUrl": "http://localhost:7001/swagger",
+      "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
-        //"ASPNETCORE_URLS": "http://+:7001"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "ASPNETCORE_URLS": "http://+:7001"
       }
     },
     "Docker": {

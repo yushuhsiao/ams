@@ -116,7 +116,7 @@ namespace GLT
             }
             finally
             {
-                using (sql_tran.Connection)
+                using (sql_tran?.Connection)
                 using (sql_tran)
                 {
                 }

@@ -4,6 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.Collections.Generic;
 
 namespace GLT
 {
@@ -21,6 +24,7 @@ namespace GLT
         {
             services.AddHttpContextAccessor();
             services.AddConfigurationBinder();
+            services.AddSingleton<ConfigService>();
             services.AddDbCache();
             services.AddSingleton<AclDefineService>();
 
@@ -33,7 +37,50 @@ namespace GLT
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "GLT_API", Version = "v1" });
+                //c.OperationFilter<AuthorizationOperationFilter>();
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "GLT_API",
+                    Version = "v1"
+                });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+                {
+                    Description = "API Token",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                    BearerFormat = "JWT"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        new List<string>()
+                    }
+                });
+
+                //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                //{
+                //    {
+                //        new OpenApiSecurityScheme
+                //        {
+                //        Reference = new OpenApiReference
+                //          {
+                //            Type = ReferenceType.SecurityScheme,
+                //            Id = "Bearer"
+                //          },
+                //          Scheme = "oauth2",
+                //          Name = "Bearer",
+                //          In = ParameterLocation.Header,
+
+                //        },
+                //        new List<string>()
+                //      }
+                //    });
 
                 //try
                 //{

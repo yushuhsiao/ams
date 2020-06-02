@@ -10,7 +10,9 @@ namespace GLT
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class ApiResult : ApiResult<object>
     {
-        private static JsonResult DefaultResult = new JsonResult(null) { StatusCode = (int)System.Net.HttpStatusCode.BadRequest };
+        //private static JsonResult DefaultResult = new JsonResult(null) { StatusCode = (int)System.Net.HttpStatusCode.BadRequest };
+        private static ApiResult _Empty = new ApiResult() { StatusCode = Status.Success };
+        private static ApiResult _BadRequest = new ApiResult() { HttpStatusCode = System.Net.HttpStatusCode.BadRequest };
 
         private static JsonResult BuildResult(IApiResult result)
             => new JsonResult(result) { StatusCode = (int?)result.HttpStatusCode };
@@ -39,7 +41,11 @@ namespace GLT
         public static IActionResult FromActionResult(IActionResult data)
         {
             ApiResult result = null;
-            if (data is ObjectResult r1)
+            if (data == null)
+                result = _Empty;
+            else if (data is EmptyResult)
+                result = _Empty;
+            else if (data is ObjectResult r1)
             {
                 result = new ApiResult()
                 {
@@ -48,11 +54,7 @@ namespace GLT
                     HttpStatusCode = (System.Net.HttpStatusCode?)r1.StatusCode,
                 };
             }
-            ;
-            if (result == null)
-                return DefaultResult;
-            else
-                return BuildResult(result);
+            return BuildResult(result ?? _BadRequest);
         }
     }
 

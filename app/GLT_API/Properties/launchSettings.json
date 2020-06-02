@@ -10,7 +10,7 @@
   "profiles": {
     "GLT_API": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "applicationUrl": "http://localhost:7001",
       "launchUrl": "swagger",
       "environmentVariables": {

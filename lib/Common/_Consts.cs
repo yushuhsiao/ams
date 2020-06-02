@@ -6,6 +6,15 @@ namespace GLT
 {
     public static class _Consts
     {
+        public static class Api
+        {
+            public const string StatusCode = "Code";
+            public const string Message = "Msg";
+            public const string Rows = "Rows";
+            public const string RowIndex = "RowIndex";
+            public const string RowCount = "RowCount";
+            public const string ErrorData = "Error";
+        }
         public static class Redis
         {
             public const string Key1 = "Redis";
@@ -31,5 +40,7 @@ namespace GLT
             public const string LogDB_R = "LogDB_R";
             public const string LogDB_W = "LogDB_W";
         }
+
+        public static string root = "root";
     }
 }

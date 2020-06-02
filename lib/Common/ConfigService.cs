@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.ComponentModel;
 using System.Data;
@@ -14,6 +15,7 @@ namespace GLT
         public ConfigService(IServiceProvider service)
         {
             this._config = service.GetConfiguration<DbConfigServie>();
+            this.Db = ActivatorUtilities.CreateInstance<DbConfigServie>(service);
         }
 
         public class DbConfigServie

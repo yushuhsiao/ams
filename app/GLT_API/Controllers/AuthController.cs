@@ -12,14 +12,17 @@ namespace GLT.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost("/api/login")]
+        [HttpPost]
         [AllowAnonymous]
+        [Api]
         public LoginResponse Login([FromBody] LoginRequest login)
         {
+            //throw new ArgumentNullException();
             return new LoginResponse() { Token = "xxx" };
         }
 
-        [HttpPost("/api/logout")]
+        [HttpPost]
+        [Api]
         public void Logout()
         {
         }
@@ -27,6 +30,7 @@ namespace GLT.Controllers
 
     public class LoginRequest
     {
+        public int CorpId;
         public string UserName;
         public string Password;
     }

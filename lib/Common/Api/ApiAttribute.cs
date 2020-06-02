@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GLT
 {
@@ -30,6 +28,7 @@ namespace GLT
 
         void IResultFilter.OnResultExecuting(ResultExecutingContext context)
         {
+            context.Result = ApiResult.FromActionResult(context.Result);
         }
 
         void IResultFilter.OnResultExecuted(ResultExecutedContext context)
@@ -38,6 +37,7 @@ namespace GLT
 
         void IExceptionFilter.OnException(ExceptionContext context)
         {
+            context.Result = ApiResult.FromException(context.Exception);
         }
     }
 }

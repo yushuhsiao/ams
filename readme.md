@@ -5,17 +5,31 @@
 
 # 開發環境
     Windows 10
-    .Net Core SDK 3.1.201
+    .Net Core SDK 3.1.300
     Visual Studio 2019
     Docker Desktop
 
 ## 引用的套件
     Microsoft.NETCore.App       v3.1.0
-    Microsoft.AspNetCore.App    v3.1.3
-    Newtonsoft.Json             v12.0.2
+    Microsoft.AspNetCore.App    v3.1.2
+    Newtonsoft.Json             v12.0.3
     StackExchange.Redis         v2.1.30
     Dapper                      v2.0.35
-    Swashbuckle.AspNetCore      v5.3.3
+    Swashbuckle.AspNetCore      v5.4.1
+
+## Api 格式
+    ContentType: application/json;
+    ResponseBody:
+
+    {
+      "Code": int,      (1=Success)
+      "Msg": string,
+      "Rows": [ object1, object2, ...],
+      "RowIndex": int,    (optional)
+      "RowCount": int,    (optional)
+      "Error": object     (optional when error)
+    }
+
 
 ## 計劃項目
     會員資料庫/相關處理程序

@@ -9,6 +9,7 @@ namespace GLT
     {
         Disabled = 0,
         Active = 1,
+        Hidden = -1,
     }
 
     //[DebuggerStepThrough]

@@ -23,11 +23,6 @@ namespace GLT.Controllers
             var v = c.GetValues();
         }
 
-        [HttpGet]
-        public void Test2()
-        {
-        }
-
     }
 
     class TestRow

@@ -6,31 +6,42 @@ using System.Data;
 
 namespace GLT
 {
-    public class ConfigService
+    public sealed class ConfigService
     {
-        private IConfiguration _config;
-
-        public DbConfigServie Db { get; }
+        public _Database Db { get; }
+        //public _Redis Redis { get; }
 
         public ConfigService(IServiceProvider service)
         {
-            this._config = service.GetConfiguration<DbConfigServie>();
-            this.Db = ActivatorUtilities.CreateInstance<DbConfigServie>(service);
+            this.Db = ActivatorUtilities.CreateInstance<_Database>(service);
+            //this.Redis = ActivatorUtilities.CreateInstance<_Redis>(service);
         }
 
-        public class DbConfigServie
+        //public sealed class _Redis
+        //{
+        //    private IConfiguration _config;
+        //    public _Redis(IServiceProvider service)
+        //    {
+        //        this._config = service.GetConfiguration<_Redis>();
+        //    }
+
+        //    [AppSetting(SectionName = _Consts.Redis.Key1), DefaultValue(_Consts.Redis.TableVer_DefaultValue)]
+        //    public string TableVer => _config.GetValue<string>();
+        //}
+
+        public sealed class _Database
         {
             private IConfiguration _config;
 
-            public DbConfigServie(IServiceProvider service)
+            public _Database(IServiceProvider service)
             {
-                this._config = service.GetConfiguration<DbConfigServie>();
+                this._config = service.GetConfiguration<_Database>();
             }
 
-            [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.db.CoreDB_R), DefaultValue(_Consts.db.CoreDB_Default)]
+            [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.Database.CoreDB_R), DefaultValue(_Consts.Database.CoreDB_Default)]
             public DbConnectionString CoreDB_R() => _config.GetValue<string>();
 
-            [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.db.CoreDB_R), DefaultValue(_Consts.db.CoreDB_Default)]
+            [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.Database.CoreDB_W), DefaultValue(_Consts.Database.CoreDB_Default)]
             public DbConnectionString CoreDB_W() => _config.GetValue<string>();
         }
     }

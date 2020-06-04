@@ -45,17 +45,18 @@ namespace GLT
         {
             this._services = services;
             this._config = services.GetConfiguration<DbCache>();
+            this._logger = _services.GetService<ILogger<DbCache>>();
         }
 
-        private ILogger GetLogger()
-        {
-            var logger = Interlocked.CompareExchange(ref _logger, null, null);
-            if (logger != null)
-                return logger;
-            logger = _services.GetService<ILogger<DbCache>>();
-            Interlocked.Exchange(ref _logger, logger);
-            return logger;
-        }
+        //private ILogger GetLogger()
+        //{
+        //    var logger = Interlocked.CompareExchange(ref _logger, null, null);
+        //    if (logger != null)
+        //        return logger;
+        //    logger = _services.GetService<ILogger<DbCache>>();
+        //    Interlocked.Exchange(ref _logger, logger);
+        //    return logger;
+        //}
 
         #region Items, Add, Get
 
@@ -71,7 +72,7 @@ namespace GLT
             }
         }
 
-        public DbCache<TValue> Get<TValue>(DbCache<TValue>.ReadDataHandler readData = null, string dbName = _Consts.db.CoreDB, string tableName = null)
+        public DbCache<TValue> Get<TValue>(DbCache<TValue>.ReadDataHandler readData = null, string dbName = _Consts.Database.CoreDB, string tableName = null)
         {
             lock (_items1)
             {
@@ -103,7 +104,7 @@ namespace GLT
                 if (cacheTypes.Contains(obj.TableName))
                     obj.PurgeCache();
             }
-            GetLogger().Log(LogLevel.Information, 0, "PurgeCache");
+            _logger.LogInformation("PurgeCache");
         }
 
         #endregion
@@ -146,7 +147,7 @@ namespace GLT
             }
             catch(Exception ex)
             {
-                GetLogger().LogError(ex.Message);
+                _logger.LogError(ex.Message);
             }
             return false;
         }
@@ -314,7 +315,7 @@ namespace GLT
                 }
                 catch (Exception ex)
                 {
-                    GetLogger().LogError(ex, ex.Message); //_logger.LogError(ex, null);
+                    _logger.LogError(ex, ex.Message); //_logger.LogError(ex, null);
                 }
             }
             value = 0;
@@ -368,7 +369,7 @@ namespace GLT
             }
             catch (Exception ex)
             {
-                GetLogger().LogError(ex, ex.Message);
+                _logger.LogError(ex, ex.Message);
                 result = default;
                 return false;
             }
@@ -595,7 +596,7 @@ namespace GLT
         private void SetName(string dbName, string tableName)
         {
             var attr = TableName<TValue>._;
-            this.DbName = dbName.Trim(true) ?? attr?.Database?.Trim(true) ?? _Consts.db.CoreDB;
+            this.DbName = dbName.Trim(true) ?? attr?.Database?.Trim(true) ?? _Consts.Database.CoreDB;
             this.TableName = tableName.Trim(true) ?? attr?.TableName?.Trim(true) ?? typeof(TValue).Name;
             var entrys = Interlocked.CompareExchange(ref this._entrys2, null, null);
             for (int i = 0, n = entrys.Length; i < n; i++)

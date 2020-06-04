@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GLT.Entity
 {
-    [TableName("Config", Database = _Consts.db.CoreDB)]
+    [TableName("Config", Database = _Consts.Database.CoreDB)]
     public class Config
     {
         internal string Key;

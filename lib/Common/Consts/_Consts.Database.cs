@@ -1,28 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GLT
+﻿namespace GLT
 {
-    public static class _Consts
+    public static partial class _Consts
     {
-        public static class Api
-        {
-            public const string StatusCode = "Code";
-            public const string Message = "Msg";
-            public const string Rows = "Rows";
-            public const string RowIndex = "RowIndex";
-            public const string RowCount = "RowCount";
-            public const string ErrorData = "Error";
-        }
-        public static class Redis
-        {
-            public const string Key1 = "Redis";
-
-            public const string TableVer = "TableVer";
-            public const string TableVer_DefaultValue = "redis01:6379,defaultDatabase=1";
-        }
-        public static class db
+        public static class Database
         {
             public const string CoreDB = "GLT_Core";
             public const string CoreDB_R = "CoreDB_R";
@@ -35,12 +15,12 @@ namespace GLT
             public const string EventLog_W = "EventLog_W";
             public const string Reporting_R = "Reporting_R";
             public const string Reporting_W = "Reporting_W";
+        
+            public const string UserDB = "GLT_User";
             public const string UserDB_R = "UserDB_R";
             public const string UserDB_W = "UserDB_W";
             public const string LogDB_R = "LogDB_R";
             public const string LogDB_W = "LogDB_W";
         }
-
-        public static string root = "root";
     }
 }

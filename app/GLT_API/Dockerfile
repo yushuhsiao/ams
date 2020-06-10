@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["app/GLT_API/GLT_API.csproj", "app/GLT_API/"]
+COPY ["lib/DataService/DataService.csproj", "lib/DataService/"]
 COPY ["lib/Common/Common.csproj", "lib/Common/"]
 COPY ["lib/Tools/Tools.csproj", "lib/Tools/"]
 RUN dotnet restore "app/GLT_API/GLT_API.csproj"

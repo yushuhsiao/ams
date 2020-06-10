@@ -11,6 +11,11 @@ namespace System.Data
     [JsonConverter(typeof(_JsonConverter))]
     public struct SqlTimeStamp
     {
+        public static void Init()
+        {
+            TypeDescriptor.AddAttributes(typeof(byte[]), new TypeConverterAttribute(typeof(_TypeConverter)));
+        }
+
         public byte[] data;
         public static implicit operator long(SqlTimeStamp t)
         {
@@ -35,23 +40,27 @@ namespace System.Data
             }
             return (SqlTimeStamp)data;
         }
-        public static explicit operator SqlTimeStamp(byte[] data)
+        public static implicit operator byte[](SqlTimeStamp t)
+        {
+            return t.data;
+        }
+        public static implicit operator SqlTimeStamp(byte[] data)
         {
             return new SqlTimeStamp() { data = data };
         }
-        public static bool Create(object data, out SqlTimeStamp value)
-        {
-            if (data is byte[])
-                value = (SqlTimeStamp)(byte[])data;
-            else if (data is long)
-                value = (SqlTimeStamp)(long)data;
-            else
-            {
-                value = default(SqlTimeStamp);
-                return false;
-            }
-            return true;
-        }
+        //public static bool Create(object data, out SqlTimeStamp value)
+        //{
+        //    if (data is byte[])
+        //        value = (SqlTimeStamp)(byte[])data;
+        //    else if (data is long)
+        //        value = (SqlTimeStamp)(long)data;
+        //    else
+        //    {
+        //        value = default(SqlTimeStamp);
+        //        return false;
+        //    }
+        //    return true;
+        //}
 
         class _TypeConverter : TypeConverter
         {

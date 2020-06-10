@@ -8,6 +8,8 @@ namespace GLT
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class ApiException : Exception, IApiResult
     {
+        public ApiException(Status status, string message = null) : base(message) { }
+
         [JsonProperty(_Consts.Api.StatusCode)]
         public Status StatusCode { get; set; }
 

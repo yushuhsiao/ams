@@ -35,6 +35,17 @@ namespace GLT
             if (nonPooling) return OpenDbConnection(Config.Db.CoreDB_W());
             return Config.Db.CoreDB_W().GetDbConnection(_service, OpenDbConnection);
         }
+
+        public IDbConnection UserDB_R(int corpId, bool nonPooling = false)
+        {
+            if (nonPooling) return OpenDbConnection(Config.Db.CoreDB_R());
+            return Config.Db.UserDB_R(corpId).GetDbConnection(_service, OpenDbConnection);
+        }
+        public IDbConnection UserDB_W(int corpId, bool nonPooling = false)
+        {
+            if (nonPooling) return OpenDbConnection(Config.Db.CoreDB_W());
+            return Config.Db.UserDB_W(corpId).GetDbConnection(_service, OpenDbConnection);
+        }
     }
 
     //internal class DbConnectionFactory : MiniProfiler.Integrations.IDbConnectionFactory

@@ -17,5 +17,8 @@ namespace GLT
         Unknown = 0,
 
         Success = 1,
+
+        CorpNotExist = 2,
+        CorpAlreadyExist = 3,
     }
 }

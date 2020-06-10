@@ -1,8 +1,10 @@
+using GLT.GLT;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
@@ -23,10 +25,9 @@ namespace GLT
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddHttpContextAccessor();
-            services.AddConfigurationBinder();
-            services.AddSingleton<ConfigService>();
+            services.AddConfigService();
             services.AddDbCache();
-            services.AddSingleton<AclDefineService>();
+            services.AddSingleton<DataService>();
 
             services
                 .AddControllers()
@@ -47,7 +48,7 @@ namespace GLT
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
                 {
                     Description = "API Token",
-                    Name = "Authorization",
+                    Name = Microsoft.Net.Http.Headers.HeaderNames.Authorization,
                     In = ParameterLocation.Header,
                     Type = SecuritySchemeType.Http,
                     Scheme = "bearer",
@@ -63,25 +64,6 @@ namespace GLT
                         new List<string>()
                     }
                 });
-
-                //c.AddSecurityRequirement(new OpenApiSecurityRequirement()
-                //{
-                //    {
-                //        new OpenApiSecurityScheme
-                //        {
-                //        Reference = new OpenApiReference
-                //          {
-                //            Type = ReferenceType.SecurityScheme,
-                //            Id = "Bearer"
-                //          },
-                //          Scheme = "oauth2",
-                //          Name = "Bearer",
-                //          In = ParameterLocation.Header,
-
-                //        },
-                //        new List<string>()
-                //      }
-                //    });
 
                 //try
                 //{
@@ -137,7 +119,14 @@ namespace GLT
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GLT API");
             });
 
-            app.ApplicationServices.GetService<AclDefineService>().Init();
+            try
+            {
+                app.ApplicationServices.DataService().Acl.Init();
+            }
+            catch (Exception ex)
+            {
+                app.ApplicationServices.GetService<ILogger<Startup>>().LogError(ex, ex.Message);
+            }
         }
     }
 }

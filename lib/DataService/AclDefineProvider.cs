@@ -13,22 +13,22 @@ using Microsoft.Extensions.Logging;
 
 namespace GLT
 {
-    public class AclDefineService
+    public class AclDefineProvider : IDataService
     {
-        private IServiceProvider _service;
+        private DataService _service;
         private ILogger _logger;
         private DbCache<Entity.AclDefine> _cache;
 
-        public AclDefineService(IServiceProvider service)
+        public AclDefineProvider(DataService dataService)
         {
-            _service = service;
-            _logger = _service.GetService<ILogger<AclDefineService>>();
-            _cache = service.GetDbCache<Entity.AclDefine>(_cache_ReadDataEvent);
+            _service = dataService;
+            _logger = _service.GetService<ILogger<AclDefineProvider>>();
+            _cache = _service.GetDbCache<Entity.AclDefine>(_cache_ReadDataEvent);
         }
 
         private IEnumerable<Entity.AclDefine> _cache_ReadDataEvent(DbCache<Entity.AclDefine>.Entry sender, Entity.AclDefine[] oldValue)
         {
-            using (var core_db = _service.GetService<DbConnectionService>().CoreDB_R())
+            using (var core_db = _service.Db.CoreDB_R())
             {
                 var result = core_db.Query<Entity.AclDefine>($"select * from {TableName<Entity.AclDefine>.Value}");
                 var dict = result.ToDictionary(x => x.Id);

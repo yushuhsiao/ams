@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using System.Net.Http.Headers;
 
 namespace GLT
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Assembly, AllowMultiple = true)]
-    public class ApiAttribute : Attribute, IActionFilter, IResultFilter, IExceptionFilter
+    public class ApiAttribute : Attribute, IActionFilter, IResultFilter, IExceptionFilter, IAuthorizationFilter
     {
         public ApiAttribute()
         {
@@ -17,6 +18,8 @@ namespace GLT
         }
 
         public string ACL_Name { get; set; }
+
+        public bool RootOnly { get; set; }
 
         void IActionFilter.OnActionExecuting(ActionExecutingContext context)
         {
@@ -38,6 +41,11 @@ namespace GLT
         void IExceptionFilter.OnException(ExceptionContext context)
         {
             context.Result = ApiResult.FromException(context.Exception);
+        }
+
+        void IAuthorizationFilter.OnAuthorization(AuthorizationFilterContext context)
+        {
+            var token = context.HttpContext.Request.Headers[Microsoft.Net.Http.Headers.HeaderNames.Authorization];
         }
     }
 }

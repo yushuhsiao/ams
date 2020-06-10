@@ -6,15 +6,37 @@ using System.Data;
 
 namespace GLT
 {
+    public static class ConfigServiceExtension
+    {
+        public static IServiceCollection AddConfigService(this IServiceCollection services)
+        {
+            services.AddConfigurationBinder();
+            services.AddSingleton<ConfigService>();
+            return services;
+        }
+    }
     public sealed class ConfigService
     {
         public _Database Db { get; }
+        private IConfiguration _config;
         //public _Redis Redis { get; }
 
         public ConfigService(IServiceProvider service)
         {
             this.Db = ActivatorUtilities.CreateInstance<_Database>(service);
-            //this.Redis = ActivatorUtilities.CreateInstance<_Redis>(service);
+            this._config = service.GetConfiguration<ConfigService>();
+        }
+
+        [AppSetting(SectionName = ""), DefaultValue(0)]
+        public int DefaultCorpId => _config.GetValue<int>();
+
+        public bool IsRootCorp
+        {
+            get
+            {
+                var d = DefaultCorpId;
+                return d == 0 || d == 1;
+            }
         }
 
         //public sealed class _Redis
@@ -43,6 +65,12 @@ namespace GLT
 
             [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.Database.CoreDB_W), DefaultValue(_Consts.Database.CoreDB_Default)]
             public DbConnectionString CoreDB_W() => _config.GetValue<string>();
+
+            [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.Database.UserDB_R), DefaultValue(_Consts.Database.UserDB_Default)]
+            public DbConnectionString UserDB_R(int corpId) => _config.GetValue<string>(corpId);
+
+            [AppSetting(SectionName = AppSettingAttribute.ConnectionStrings, Key = _Consts.Database.UserDB_W), DefaultValue(_Consts.Database.UserDB_Default)]
+            public DbConnectionString UserDB_W(int corpId) => _config.GetValue<string>(corpId);
         }
     }
 

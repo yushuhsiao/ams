@@ -10,7 +10,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
@@ -68,22 +71,23 @@ namespace GLT
             lock (_items1)
             {
                 _items1.TryAdd(item);
-                _items2 = Interlocked.Exchange(ref _items2, _items1.ToArray());
+                //_items2 =
+                Interlocked.Exchange(ref _items2, _items1.ToArray());
             }
         }
 
         public DbCache<TValue> Get<TValue>(DbCache<TValue>.ReadDataHandler readData = null, string dbName = _Consts.Database.CoreDB, string tableName = null)
         {
+            var _items = Interlocked.CompareExchange(ref _items2, null, null);
+            DbCache<TValue> item;
+            for (int i = 0; i < _items.Length; i++)
+            {
+                item = _items[i] as DbCache<TValue>;
+                if (item != null)
+                    return item;
+            }
             lock (_items1)
             {
-                var _items = Interlocked.CompareExchange(ref _items2, null, null);
-                DbCache<TValue> item;
-                for (int i = 0; i < _items.Length; i++)
-                {
-                    item = _items[i] as DbCache<TValue>;
-                    if (item != null)
-                        return item;
-                }
                 item = new DbCache<TValue>(_services, this, dbName, tableName) { ReadData = readData };
                 this.Add(item);
                 return item;
@@ -250,49 +254,67 @@ namespace GLT
         //    _db = null;
         //}
 
-        internal bool SqlGetVersion(IDbCacheEntry entry, out long value) => sql_exec(false, entry, out value);
-        internal bool SqlSetVersion(IDbCacheEntry entry, out long value) => sql_exec(true, entry, out value);
+        internal bool SqlGetVersion(IDbCacheEntry entry, out long value) => SqlExec(false, entry, out value);
+        internal bool SqlSetVersion(IDbCacheEntry entry, out long value) => SqlExec(true, entry, out value);
+        internal async Task<long> SqlGetVersion(IDbCacheEntry entry) => await SqlExecAsync(false, entry);
+        internal async Task<long> SqlSetVersion(IDbCacheEntry entry) => await SqlExecAsync(true, entry);
 
-        private bool sql_exec(bool isWrite, IDbCacheEntry entry, out long value)
+        private void sql_init1(bool isWrite, IDbCacheEntry entry, out string sp, out object param)
         {
-            string sp = isWrite ? "TableVer_set" : "TableVer_get";
-            var param = new
+            sp = isWrite ? "TableVer_set" : "TableVer_get";
+            var db = entry.Parent.DbName;
+            if (db.Length > 20)
+                db = db.Substring(20);
+            var table = entry.Parent.TableName;
+            if (table.Length > 30)
+                table= table.Substring(30);
+            param = new
             {
-                db = sql_DbName(entry.Parent.DbName),
-                table = sql_TableName(entry.Parent.TableName),
+                db = db,
+                table = table,
                 index = entry.Index
             };
+        }
+
+        private IDbConnection sql_init2(bool isWrite, out IDbTransaction tran)
+        {
+            IDbConnection conn;
+            if (isWrite)
+            {
+                conn = this.dbConn_w;
+                if (conn == null)
+                    conn = this.dbConn_w = _services.GetService<DbConnectionService>().CoreDB_W(nonPooling: true);
+                tran = conn.BeginTransaction();
+            }
+            else
+            {
+                conn = this.dbConn_r;
+                if (conn == null)
+                    conn = this.dbConn_r = _services.GetService<DbConnectionService>().CoreDB_R(nonPooling: true);
+                tran = null;
+            }
+            return conn;
+        }
+
+        private bool SqlExec(bool isWrite, IDbCacheEntry entry, out long value)
+        {
+            sql_init1(isWrite, entry, out var sp, out var param);
             for (int r = 0; r < 3; r++)
             {
                 try
                 {
                     lock (sync_sql)
                     {
-                        IDbConnection conn;
-                        IDbTransaction tran;
-                        if (isWrite)
-                        {
-                            conn = this.dbConn_w;
-                            if (conn == null)
-                                conn = this.dbConn_w = _services.GetService<DbConnectionService>().CoreDB_W(nonPooling: true);
-                            tran = conn.BeginTransaction();
-                        }
-                        else
-                        {
-                            conn = this.dbConn_r;
-                            if (conn == null)
-                                conn = this.dbConn_r = _services.GetService<DbConnectionService>().CoreDB_R(nonPooling: true);
-                            tran = null;
-                        }
-
-                        object tmp1;
+                        IDbConnection conn = sql_init2(isWrite, out var tran);
 
                         try
                         {
                             using (tran)
                             {
-                                tmp1 = conn.ExecuteScalar(sp, param, transaction: tran, commandType: CommandType.StoredProcedure);
+                                byte[] tmp1 = conn.ExecuteScalar<byte[]>(sp, param, transaction: tran, commandType: CommandType.StoredProcedure);
                                 tran?.Commit();
+                                value = (SqlTimeStamp)tmp1;
+                                return true;
                             }
                         }
                         catch
@@ -300,16 +322,6 @@ namespace GLT
                             using (this.dbConn_r)
                             using (this.dbConn_w)
                                 throw;
-                        }
-                        if (SqlTimeStamp.Create(tmp1, out SqlTimeStamp tmp2))
-                        {
-                            value = tmp2;
-                            return true;
-                        }
-                        else
-                        {
-                            value = 0;
-                            return true;
                         }
                     }
                 }
@@ -322,20 +334,42 @@ namespace GLT
             return false;
         }
 
-        [DebuggerStepThrough]
-        private static string sql_DbName(string name)
+        private async Task<long> SqlExecAsync(bool isWrite, IDbCacheEntry entry)
         {
-            if (name.Length > 20)
-                return name.Substring(20);
-            return name;
-        }
+            sql_init1(isWrite, entry, out var sp, out var param);
+            for (int r = 0; r < 3; r++)
+            {
+                Monitor.Enter(sync_sql);
+                try
+                {
+                    IDbConnection conn = sql_init2(isWrite, out var tran);
 
-        [DebuggerStepThrough]
-        private static string sql_TableName(string name)
-        {
-            if (name.Length > 30)
-                return name.Substring(30);
-            return name;
+                    try
+                    {
+                        using (tran)
+                        {
+                            var tmp1 = await conn.ExecuteScalarAsync<byte[]>(sp, param, transaction: tran, commandType: CommandType.StoredProcedure);
+                            tran?.Commit();
+                            return (SqlTimeStamp)tmp1;
+                        }
+                    }
+                    catch
+                    {
+                        using (this.dbConn_r)
+                        using (this.dbConn_w)
+                            throw;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, ex.Message); //_logger.LogError(ex, null);
+                }
+                finally
+                {
+                    Monitor.Exit(sync_sql);
+                }
+            }
+            return await Task.FromResult(0);
         }
 
         #endregion

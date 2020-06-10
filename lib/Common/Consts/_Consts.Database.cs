@@ -19,6 +19,9 @@
             public const string UserDB = "GLT_User";
             public const string UserDB_R = "UserDB_R";
             public const string UserDB_W = "UserDB_W";
+            public const string UserDB_Default = "Data Source=db01;Initial Catalog=" + UserDB + ";Persist Security Info=True;User ID=sa;Password=sa";
+
+
             public const string LogDB_R = "LogDB_R";
             public const string LogDB_W = "LogDB_W";
         }

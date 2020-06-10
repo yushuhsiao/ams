@@ -13,6 +13,7 @@ using System.Threading;
 using Dapper;
 using StackExchange.Redis;
 using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Http;
 
 namespace GLT
 {
@@ -35,37 +36,44 @@ namespace GLT
 
     public class SqlAppSettingsConfigurationProvider : AppSettingBinder.Provider
     {
-        private IServiceProvider _service;
+        private IServiceProvider __service;
         //private DbConnectionService _dbCnnectionService;
-        private DbCache<Entity.Config> _dbCache;
+        //private DbCache<Entity.Config> _dbCache;
 
         public override void OnInit(IServiceProvider service)
         {
-            var obj = Interlocked.CompareExchange(ref _service, service, null);
-            if (obj == null) return;
+            Interlocked.CompareExchange(ref __service, service, null);
+            //if (obj == null) return;
             //Interlocked.Exchange(ref _dbCnnectionService, _service.GetService<DbConnectionService>());
-            Interlocked.Exchange(ref _dbCache, _service.GetDbCache<Entity.Config>(ReadData));
+            //Interlocked.Exchange(ref _dbCache, _service.GetDbCache<Entity.Config>(ReadData));
+        }
+
+        private bool GetServiceProvider(out IServiceProvider service)
+        {
+            service = Interlocked.CompareExchange(ref __service, null, null);
+            return service != null;
         }
 
         private IEnumerable<Entity.Config> ReadData(DbCache<Entity.Config>.Entry sender, Entity.Config[] oldValue)
         {
-            var _service = Interlocked.CompareExchange(ref this._service, null, null);
-            if (_service == null)
-                return null;
-            var _dbCnnectionService = _service.GetService<DbConnectionService>();
-            string sql = $"select * from {TableName<Entity.Config>.Value} where CorpId = {sender.Index}";
-            using (var conn = _dbCnnectionService.CoreDB_R(nonPooling: true))
+            if (GetServiceProvider(out var _service))
             {
-                var rows = conn.Query<Entity.Config>(sql);
-                foreach (var row in rows)
+                var _dbCnnectionService = _service.GetService<DbConnectionService>();
+                string sql = $"select * from {TableName<Entity.Config>.Value} where CorpId = {sender.Index}";
+                using (var conn = _dbCnnectionService.CoreDB_R(nonPooling: true))
                 {
-                    if (row.CorpId == 0)
-                        row.Key = $"{row.Key1}:{row.Key2}";
-                    else
-                        row.Key = $"{row.Key1}:{row.Key2}:{row.CorpId}";
+                    var rows = conn.Query<Entity.Config>(sql);
+                    foreach (var row in rows)
+                    {
+                        if (row.CorpId == 0)
+                            row.Key = $"{row.Key1}:{row.Key2}";
+                        else
+                            row.Key = $"{row.Key1}:{row.Key2}:{row.CorpId}";
+                    }
+                    return rows;
                 }
-                return rows;
             }
+            return null;
         }
 
         //public bool OnGetValue<TValue>(string section, string key, out TValue value, params object[] index)
@@ -104,17 +112,18 @@ namespace GLT
 
         public override bool TryGet(string key, out string value)
         {
-            var _dbCacahe = Interlocked.CompareExchange(ref this._dbCache, null, null);
-            if (_dbCacahe == null)
-                return base.TryGet(key, out value);
-            var values = _dbCacahe.GetValues();
-            for (int i = 0; i < values.Length; i++)
+            if (GetServiceProvider(out var _service))
             {
-                var row = values[i];
-                if (string.Compare(row.Key, key, true) == 0)
+                var _dbCacahe = _service.GetDbCache<Entity.Config>(ReadData);
+                var values = _dbCacahe.GetValues();
+                for (int i = 0; i < values.Length; i++)
                 {
-                    value = row.Value;
-                    return true;
+                    var row = values[i];
+                    if (string.Compare(row.Key, key, true) == 0)
+                    {
+                        value = row.Value;
+                        return true;
+                    }
                 }
             }
             return base.TryGet(key, out value);

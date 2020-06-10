@@ -18,7 +18,7 @@ namespace GLT.Entity
 namespace GLT.Entity.Abstract
 {
     [TableName("Users", Database = _Consts.Database.UserDB)]
-    public class BaseUserData
+    public class BaseUserData : BaseData
     {
         public int Id { get; set; }
         public SqlTimeStamp ver { get; set; }
@@ -29,10 +29,6 @@ namespace GLT.Entity.Abstract
         public int ParentId { get; set; }
         public string DisplayName { get; set; }
         public int Depth { get; set; }
-        public DateTime CreateTime { get; set; }
-        public int CreateUser { get; set; }
-        public DateTime ModifyTime { get; set; }
-        public int ModifyUser { get; set; }
     }
 
     /// <summary>

@@ -30,6 +30,9 @@ namespace GLT
         [AppSetting(SectionName = ""), DefaultValue(0)]
         public int DefaultCorpId => _config.GetValue<int>();
 
+        [AppSetting(SectionName = ""), DefaultValue(0)]
+        public string DefaultCorpName => _config.GetValue<string>();
+
         public bool IsRootCorp
         {
             get

@@ -8,7 +8,10 @@ namespace GLT
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class ApiException : Exception, IApiResult
     {
-        public ApiException(Status status, string message = null) : base(message) { }
+        public ApiException(Status status, string message = null) : base(message ?? status.ToString())
+        {
+            this.StatusCode = status;
+        }
 
         [JsonProperty(_Consts.Api.StatusCode)]
         public Status StatusCode { get; set; }
@@ -28,6 +31,6 @@ namespace GLT
 
         int? IApiResult.RowCount { get; set; }
 
-        HttpStatusCode? IApiResult.HttpStatusCode { get; set; }
+        public HttpStatusCode? HttpStatusCode { get; set; }
     }
 }

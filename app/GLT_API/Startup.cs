@@ -119,6 +119,9 @@ namespace GLT
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "GLT API");
             });
 
+            SqlMapperTypeHandleing.Init();
+
+
             try
             {
                 app.ApplicationServices.DataService().Acl.Init();

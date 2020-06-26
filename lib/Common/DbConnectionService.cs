@@ -35,6 +35,7 @@ namespace GLT
             if (nonPooling) return OpenDbConnection(Config.Db.CoreDB_W());
             return Config.Db.CoreDB_W().GetDbConnection(_service, OpenDbConnection);
         }
+        public IDbTransaction CoreDB_WT(bool nonPooling = false) => CoreDB_W(nonPooling).BeginTransaction();
 
         public IDbConnection UserDB_R(int corpId, bool nonPooling = false)
         {

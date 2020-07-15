@@ -14,7 +14,11 @@ namespace GLT
         }
 
         [JsonProperty(_Consts.Api.StatusCode)]
-        public Status StatusCode { get; set; }
+        public Status StatusCode
+        {
+            get;
+            set;
+        }
 
         private string _message;
 
@@ -25,12 +29,27 @@ namespace GLT
             set => _message = value;
         }
 
-        IEnumerable IApiResult.Rows { get; }
+        IEnumerable IApiResult.Rows
+        {
+            get;
+        }
 
-        int? IApiResult.RowIndex { get; set; }
+        int? IApiResult.RowIndex
+        {
+            get;
+            set;
+        }
 
-        int? IApiResult.RowCount { get; set; }
+        int? IApiResult.RowCount
+        {
+            get;
+            set;
+        }
 
-        public HttpStatusCode? HttpStatusCode { get; set; }
+        public HttpStatusCode? HttpStatusCode
+        {
+            get;
+            set;
+        }
     }
 }

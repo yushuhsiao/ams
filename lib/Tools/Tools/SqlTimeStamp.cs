@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Dapper;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,8 +12,9 @@ namespace System.Data
     [JsonConverter(typeof(_JsonConverter))]
     public struct SqlTimeStamp
     {
-        public static void Init()
+        static SqlTimeStamp()
         {
+            SqlMapper.AddTypeHandler(typeof(SqlTimeStamp), new _TypeHandler());
             TypeDescriptor.AddAttributes(typeof(byte[]), new TypeConverterAttribute(typeof(_TypeConverter)));
         }
 
@@ -61,6 +63,21 @@ namespace System.Data
         //    }
         //    return true;
         //}
+
+        class _TypeHandler : SqlMapper.ITypeHandler
+        {
+            object SqlMapper.ITypeHandler.Parse(Type destinationType, object value)
+            {
+                if (destinationType == typeof(SqlTimeStamp) && value is byte[] _value)
+                    return (SqlTimeStamp)_value;
+                return null;
+            }
+
+            void SqlMapper.ITypeHandler.SetValue(IDbDataParameter parameter, object value)
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         class _TypeConverter : TypeConverter
         {

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using GLT.GLT;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,8 +9,8 @@ namespace GLT.Controllers
     public class AuthController : ControllerBase
     {
         [HttpPost]
-        [AllowAnonymous]
         [Api]
+        [AllowAnonymous]
         public LoginResponse Login([FromBody] LoginRequest login)
         {
             var corp = HttpContext.RequestServices.DataService().Corps.GetCorp(login.CorpId);

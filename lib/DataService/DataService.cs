@@ -7,13 +7,10 @@ using System.Threading;
 
 namespace GLT
 {
-    namespace GLT
+    public static class DbCacheExtensions
     {
-        public static class DbCacheExtensions
-        {
-            [DebuggerStepThrough]
-            public static DataService DataService(this IServiceProvider services) => services.GetService<DataService>();
-        }
+        [DebuggerStepThrough]
+        public static DataService DataService(this IServiceProvider services) => services.GetService<DataService>();
     }
 
     public class DataService : IServiceProvider

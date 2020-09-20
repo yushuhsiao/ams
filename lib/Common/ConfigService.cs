@@ -4,7 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Data;
 
-namespace GLT
+namespace CMS
 {
     public static class ConfigServiceExtension
     {

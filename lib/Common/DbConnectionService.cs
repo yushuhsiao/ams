@@ -5,7 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 
-namespace GLT
+namespace CMS
 {
     public class DbConnectionService
     {

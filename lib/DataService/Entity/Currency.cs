@@ -3,7 +3,7 @@
 using System;
 using System.Data;
 
-namespace GLT.Entity
+namespace CMS.Entity
 {
     public abstract class Currency
     {

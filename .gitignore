@@ -8,5 +8,10 @@ db/*/匯入結構描述記錄
 bin/
 obj/
 /lib.ext
-app/GLT_API/pub
+app/CMS_API/pub
 db/.vs
+.DS_Store
+app/CMS_API/wwwroot/lib/bootstrap
+app/CMS_API/wwwroot/lib/jquery
+app/CMS_API/wwwroot/lib/jquery-validation
+app/CMS_API/wwwroot/lib/jquery-validation-unobtrusive

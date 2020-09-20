@@ -5,7 +5,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Threading;
 
-namespace GLT
+namespace CMS
 {
     public static class DbCacheExtensions
     {

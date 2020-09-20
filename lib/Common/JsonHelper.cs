@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using _DebuggerStepThrough = System.Diagnostics.FakeDebuggerStepThroughAttribute;
 
-namespace GLT
+namespace CMS
 {
     [_DebuggerStepThrough]
     public static class JsonHelper
@@ -711,9 +711,9 @@ namespace GLT
             internal static StringEnumConverter GetStringEnumConverter(StringEnumAttribute attr)
             {
                 if (attr == null)
-                    return new GLT.JsonHelper.StringEnumConverter();
+                    return new CMS.JsonHelper.StringEnumConverter();
                 else if (attr.AsString)
-                    return new GLT.JsonHelper.StringEnumConverter();
+                    return new CMS.JsonHelper.StringEnumConverter();
                 return null;
             }
         }

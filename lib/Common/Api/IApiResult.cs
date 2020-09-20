@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Net;
 
-namespace GLT
+namespace CMS
 {
     public interface IApiResult
     {

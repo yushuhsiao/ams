@@ -1,4 +1,4 @@
-﻿namespace GLT
+﻿namespace CMS
 {
     public interface IDataService
     {

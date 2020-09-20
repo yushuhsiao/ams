@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GLT.Entity.Abstract
+namespace CMS.Entity.Abstract
 {
     public class BaseData
     {

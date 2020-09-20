@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Newtonsoft.Json;
 
-namespace GLT
+namespace CMS
 {
     [JsonHelper.StringEnum(AsString = false)]
     public enum ActiveState : sbyte

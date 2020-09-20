@@ -2,7 +2,7 @@
 using System;
 using System.Net.Http.Headers;
 
-namespace GLT
+namespace CMS
 {
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Assembly, AllowMultiple = true)]
     public class ApiAttribute : Attribute, IActionFilter, IResultFilter, IExceptionFilter, IAuthorizationFilter

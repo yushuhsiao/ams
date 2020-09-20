@@ -1,6 +1,6 @@
 // 多國語系定義
 
-namespace GLT.Entity
+namespace CMS.Entity
 {
     public class Lang
     {

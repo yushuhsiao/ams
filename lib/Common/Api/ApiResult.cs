@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 
-namespace GLT
+namespace CMS
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class ApiResult : ApiResult<object>

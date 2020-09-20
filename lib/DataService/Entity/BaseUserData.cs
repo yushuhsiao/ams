@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace GLT.Entity
+namespace CMS.Entity
 {
     public class GeneralUser : Abstract.BaseUserData
     {
@@ -15,7 +15,7 @@ namespace GLT.Entity
         public Abstract.AdminUserData ExtData;
     }
 }
-namespace GLT.Entity.Abstract
+namespace CMS.Entity.Abstract
 {
     [TableName("Users", Database = _Consts.Database.UserDB)]
     public class BaseUserData : BaseData

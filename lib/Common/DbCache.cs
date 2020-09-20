@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using GLT;
+using CMS;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -28,7 +28,7 @@ namespace Microsoft.Extensions.DependencyInjection
         }
     }
 }
-namespace GLT
+namespace CMS
 {
     public static class DbCacheExtensions
     {
@@ -36,7 +36,7 @@ namespace GLT
             => services.GetService<DbCache>().Get(readData, name);
     }
 }
-namespace GLT
+namespace CMS
 {
     public class DbCache
     {

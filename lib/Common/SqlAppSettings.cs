@@ -15,7 +15,7 @@ using StackExchange.Redis;
 using System.Runtime.CompilerServices;
 using Microsoft.AspNetCore.Http;
 
-namespace GLT
+namespace CMS
 {
     public static class SqlAppSettingsExtensions
     {

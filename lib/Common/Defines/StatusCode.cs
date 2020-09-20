@@ -1,7 +1,7 @@
 ﻿
 using System.Net;
 
-namespace GLT
+namespace CMS
 {
     [JsonHelper.StringEnum(false)]
     public enum Status : int

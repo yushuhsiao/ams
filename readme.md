@@ -58,19 +58,19 @@
 
 
 # 資料庫
-    GLT_Core        系統核心
-    GLT_Main        會員網站，Main Office 相關事務
-    GLT_EventLog    事件紀錄
-    GLT_Reporting   報表
-    GLT_User        站台的會員資料
-    GLT_Log         站台的帳務資料
+    CMS_Core        系統核心
+    CMS_Main        會員網站，Main Office 相關事務
+    CMS_EventLog    事件紀錄
+    CMS_Reporting   報表
+    CMS_User        站台的會員資料
+    CMS_Log         站台的帳務資料
 
 
 
 # 資料夾結構
     app
         api_test
-        GLT_API         API Server
+        CMS_API         API Server
     db                  Database Schemas
     lib                 Librarys
         Common          Common Library

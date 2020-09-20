@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace GLT
+namespace CMS
 {
     public class AclDefineProvider : IDataService
     {

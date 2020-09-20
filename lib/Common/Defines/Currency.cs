@@ -6,7 +6,7 @@ using System;
 //using System.Text;
 using _DebuggerStepThrough = System.Diagnostics.FakeDebuggerStepThroughAttribute;
 
-namespace GLT
+namespace CMS
 {
     /// <summary>
     /// ISO 4217

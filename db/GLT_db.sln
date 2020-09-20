@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29920.165
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_Core", "GLT_Core\GLT_Core.sqlproj", "{13E1CF44-6185-4251-83E0-0B79904A2C68}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CMS_Core", "CMS_Core\CMS_Core.sqlproj", "{13E1CF44-6185-4251-83E0-0B79904A2C68}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_EventLog", "GLT_EventLog\GLT_EventLog.sqlproj", "{348C7B7E-D37B-4420-BC20-76FFD6118ABC}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CMS_EventLog", "CMS_EventLog\CMS_EventLog.sqlproj", "{348C7B7E-D37B-4420-BC20-76FFD6118ABC}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_Log", "GLT_Log\GLT_Log.sqlproj", "{FFAC9B87-CE17-47E4-A0F1-9E7504838537}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CMS_Log", "CMS_Log\CMS_Log.sqlproj", "{FFAC9B87-CE17-47E4-A0F1-9E7504838537}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_Main", "GLT_Main\GLT_Main.sqlproj", "{6CB57E85-8CBC-45F5-BD6B-ABAD2388F8E5}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CMS_Main", "CMS_Main\CMS_Main.sqlproj", "{6CB57E85-8CBC-45F5-BD6B-ABAD2388F8E5}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_User", "GLT_User\GLT_User.sqlproj", "{3F39FD9D-481F-4C90-BC5D-C93762C759AB}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CMS_User", "CMS_User\CMS_User.sqlproj", "{3F39FD9D-481F-4C90-BC5D-C93762C759AB}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "GLT_Reporting", "GLT_Reporting\GLT_Reporting.sqlproj", "{57B47640-AB13-4CA7-931F-8262CC0754B7}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "CMS_Reporting", "CMS_Reporting\CMS_Reporting.sqlproj", "{57B47640-AB13-4CA7-931F-8262CC0754B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

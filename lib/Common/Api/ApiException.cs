@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Net;
 
-namespace GLT
+namespace CMS
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class ApiException : Exception, IApiResult

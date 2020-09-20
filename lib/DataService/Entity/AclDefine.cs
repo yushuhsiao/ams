@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 
-namespace GLT.Entity
+namespace CMS.Entity
 {
     [TableName("AclDefine", Database = _Consts.Database.CoreDB)]
     public class AclDefine

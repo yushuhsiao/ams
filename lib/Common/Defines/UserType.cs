@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GLT
+namespace CMS
 {
     [Flags]
     public enum UserType : sbyte

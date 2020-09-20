@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace GLT
+namespace CMS
 {
     /// <summary>
     /// 交易類型, 奇數為提領, 偶數為存款

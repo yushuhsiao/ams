@@ -1,5 +1,5 @@
 // 常數 mui
-namespace GLT.Entity
+namespace CMS.Entity
 {
     public class Enums
     {

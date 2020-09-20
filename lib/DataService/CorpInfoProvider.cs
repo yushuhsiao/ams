@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Text;
 using Dapper;
-using GLT.Entity;
+using CMS.Entity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GLT
+namespace CMS
 {
     public class CorpInfoProvider : IDataService
     {

@@ -15,7 +15,7 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "ASPNETCORE_URLS": "http://+:7001"
+        //"ASPNETCORE_URLS": "http://+:7001"
       }
     },
     "Docker": {

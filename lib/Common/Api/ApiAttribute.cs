@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Filters;
+﻿using CMS.Defines;
+using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Net.Http.Headers;
 
@@ -12,14 +13,15 @@ namespace CMS
             
         }
 
-        public ApiAttribute(string acl_name)
+        public ApiAttribute(string acl_name, AclFlags flags = 0)
         {
             this.ACL_Name = acl_name;
+            this.Flags = flags;
         }
 
         public string ACL_Name { get; set; }
 
-        public bool RootOnly { get; set; }
+        public AclFlags Flags { get; set; }
 
         void IActionFilter.OnActionExecuting(ActionExecutingContext context)
         {

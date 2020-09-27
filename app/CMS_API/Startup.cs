@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace CMS
 {
@@ -118,14 +119,17 @@ namespace CMS
             });
 
 
-            try
+            Task.Run(() =>
             {
-                app.ApplicationServices.DataService().Acl.Init();
-            }
-            catch (Exception ex)
-            {
-                app.ApplicationServices.GetService<ILogger<Startup>>().LogError(ex, ex.Message);
-            }
+                try
+                {
+                    app.ApplicationServices.DataService().Acl.Init();
+                }
+                catch (Exception ex)
+                {
+                    app.ApplicationServices.GetService<ILogger<Startup>>().LogError(ex, ex.Message);
+                }
+            });
         }
     }
 }

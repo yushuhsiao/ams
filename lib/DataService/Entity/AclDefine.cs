@@ -12,5 +12,6 @@ namespace CMS.Entity
         public int ParentId { get; set; }
         public string Name { get; set; }
         public string FullName { get; set; }
+        public AclFlags Flags { get; set; }
     }
 }

@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace Dapper
 {
-    [DebuggerStepThrough]
+    //[DebuggerStepThrough]
     public static class SqlMapperExtensions
     {
+        static SqlMapperExtensions()
+        {
+            Dapper.SqlMapper.TypeMapProvider = type => new DefaultTypeMap(type);
+        }
+
         public static int Execute(this IDbTransaction tran, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)
             => SqlMapper.Execute(tran.Connection, sql, param, tran, commandTimeout, commandType);
         public static Task<int> ExecuteAsync(this IDbTransaction tran, string sql, object param = null, int? commandTimeout = null, CommandType? commandType = null)

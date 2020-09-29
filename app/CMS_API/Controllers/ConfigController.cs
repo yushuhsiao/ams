@@ -15,12 +15,12 @@ namespace CMS.Controllers
         /// 指定站台為子網站
         /// </summary>
         /// <param name="data"></param>
-        [HttpPost, Api("sys.config.global.setDefaultCorp", RootOnly = true)]
+        [HttpPost, Api("sys.config.global.setDefaultCorp", AclFlags.RootOnly)]
         public void SetDefaultCorp([FromBody] SetDefaultIdRequest data)
         {
         }
 
-        [HttpPost, Api("sys.config.global.setvalue", RootOnly = true)]
+        [HttpPost, Api("sys.config.global.setvalue", AclFlags.RootOnly)]
         public void SetGlobalValue(string key, string value)
         {
         }

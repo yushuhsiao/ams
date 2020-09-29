@@ -1,5 +1,4 @@
-﻿using CMS.Defines;
-using Microsoft.AspNetCore.Mvc.Filters;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 using System.Net.Http.Headers;
 

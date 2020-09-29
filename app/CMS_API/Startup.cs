@@ -28,6 +28,8 @@ namespace CMS
             services.AddDbCache();
             services.AddSingleton<DataService>();
 
+            var x = typeof(Dapper.SqlMapperExtensions);
+
             services
                 .AddControllers()
                 //.AddControllersWithViews()

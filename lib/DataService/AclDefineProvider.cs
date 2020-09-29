@@ -90,13 +90,14 @@ namespace CMS
                             if (sql_tran == null)
                                 sql_tran = _service.GetService<DbConnectionService>().CoreDB_W().BeginTransaction();
                             item = sql_tran.QuerySingle<Entity.AclDefine>($@"
- insert into AclDefine ( ParentId, Name, FullName)
- values                (@ParentId,@Name,@FullName);
+ insert into AclDefine ( ParentId, Name, FullName, Flags)
+ values                (@ParentId,@Name,@FullName,@Flags);
  select * from AclDefine where Id = @@IDENTITY; ", new
                             {
                                 ParentId = parentId,
                                 Name = name,
                                 FullName = fullName,
+                                Flags = (int)apiAttr.Flags,
                             });
                             acls = acls.Add(item);
                         }

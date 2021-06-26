@@ -7,6 +7,167 @@
       <e p=".project" t="Include" />
       <e p="ams.sln" t="IncludeFlat" />
       <e p="app" t="Include">
+        <e p="BlazorApp1/Client" t="IncludeRecursive">
+          <e p="_Imports.razor" t="Include" />
+          <e p="App.razor" t="Include" />
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="BlazorApp1.Client.csproj" t="IncludeRecursive" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="net5.0" t="Include">
+                <e p="BlazorApp1.Client.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Pages" t="Include">
+            <e p="Counter.razor" t="Include" />
+            <e p="FetchData.razor" t="Include" />
+            <e p="Index.razor" t="Include" />
+          </e>
+          <e p="Program.cs" t="Include" />
+          <e p="Properties" t="Include">
+            <e p="launchSettings.json" t="Include" />
+          </e>
+          <e p="Shared" t="Include">
+            <e p="MainLayout.razor" t="Include" />
+            <e p="MainLayout.razor.css" t="Include" />
+            <e p="NavMenu.razor" t="Include" />
+            <e p="NavMenu.razor.css" t="Include" />
+            <e p="SurveyPrompt.razor" t="Include" />
+          </e>
+          <e p="wwwroot" t="Include">
+            <e p="css" t="Include">
+              <e p="app.css" t="Include" />
+              <e p="bootstrap" t="Include">
+                <e p="bootstrap.min.css" t="Include" />
+                <e p="bootstrap.min.css.map" t="Include" />
+              </e>
+              <e p="open-iconic" t="Include">
+                <e p="font" t="Include">
+                  <e p="css" t="Include">
+                    <e p="open-iconic-bootstrap.min.css" t="Include" />
+                  </e>
+                  <e p="fonts" t="Include">
+                    <e p="open-iconic.eot" t="Include" />
+                    <e p="open-iconic.otf" t="Include" />
+                    <e p="open-iconic.svg" t="Include" />
+                    <e p="open-iconic.ttf" t="Include" />
+                    <e p="open-iconic.woff" t="Include" />
+                  </e>
+                </e>
+                <e p="FONT-LICENSE" t="Include" />
+                <e p="ICON-LICENSE" t="Include" />
+                <e p="readme.md" t="Include" />
+              </e>
+            </e>
+            <e p="favicon.ico" t="Include" />
+            <e p="index.html" t="Include" />
+          </e>
+        </e>
+        <e p="BlazorApp1/Server" t="IncludeRecursive">
+          <e p="appsettings.Development.json" t="Include" />
+          <e p="appsettings.json" t="Include" />
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="BlazorApp1.Server.csproj" t="IncludeRecursive" />
+          <e p="Controllers" t="Include">
+            <e p="WeatherForecastController.cs" t="Include" />
+          </e>
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="net5.0" t="Include">
+                <e p="BlazorApp1.Server.AssemblyInfo.cs" t="Include" />
+                <e p="BlazorApp1.Server.RazorAssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Pages" t="Include">
+            <e p="Error.cshtml" t="Include" />
+            <e p="Error.cshtml.cs" t="Include" />
+          </e>
+          <e p="Program.cs" t="Include" />
+          <e p="Properties" t="Include">
+            <e p="launchSettings.json" t="Include" />
+          </e>
+          <e p="Startup.cs" t="Include" />
+        </e>
+        <e p="BlazorApp1/Shared" t="IncludeRecursive">
+          <e p="Android" t="Include" />
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="BlazorApp1.Shared.csproj" t="IncludeRecursive" />
+          <e p="browser" t="Include" />
+          <e p="iOS" t="Include" />
+          <e p="Linux" t="Include" />
+          <e p="macOS" t="Include" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="net5.0" t="Include">
+                <e p="BlazorApp1.Shared.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="WeatherForecast.cs" t="Include" />
+          <e p="Windows" t="Include" />
+        </e>
+        <e p="BlazorApp2" t="IncludeRecursive">
+          <e p="_Imports.razor" t="Include" />
+          <e p="App.razor" t="Include" />
+          <e p="bin" t="ExcludeRecursive" />
+          <e p="BlazorApp2.csproj" t="IncludeRecursive" />
+          <e p="obj" t="ExcludeRecursive">
+            <e p="Debug" t="Include">
+              <e p="net5.0" t="Include">
+                <e p="BlazorApp2.AssemblyInfo.cs" t="Include" />
+              </e>
+            </e>
+          </e>
+          <e p="Pages" t="Include">
+            <e p="Counter.razor" t="Include" />
+            <e p="FetchData.razor" t="Include" />
+            <e p="Index.razor" t="Include" />
+          </e>
+          <e p="Program.cs" t="Include" />
+          <e p="Properties" t="Include">
+            <e p="launchSettings.json" t="Include" />
+          </e>
+          <e p="Shared" t="Include">
+            <e p="MainLayout.razor" t="Include" />
+            <e p="MainLayout.razor.css" t="Include" />
+            <e p="NavMenu.razor" t="Include" />
+            <e p="NavMenu.razor.css" t="Include" />
+            <e p="SurveyPrompt.razor" t="Include" />
+          </e>
+          <e p="wwwroot" t="Include">
+            <e p="css" t="Include">
+              <e p="app.css" t="Include" />
+              <e p="bootstrap" t="Include">
+                <e p="bootstrap.min.css" t="Include" />
+                <e p="bootstrap.min.css.map" t="Include" />
+              </e>
+              <e p="open-iconic" t="Include">
+                <e p="font" t="Include">
+                  <e p="css" t="Include">
+                    <e p="open-iconic-bootstrap.min.css" t="Include" />
+                  </e>
+                  <e p="fonts" t="Include">
+                    <e p="open-iconic.eot" t="Include" />
+                    <e p="open-iconic.otf" t="Include" />
+                    <e p="open-iconic.svg" t="Include" />
+                    <e p="open-iconic.ttf" t="Include" />
+                    <e p="open-iconic.woff" t="Include" />
+                  </e>
+                </e>
+                <e p="FONT-LICENSE" t="Include" />
+                <e p="ICON-LICENSE" t="Include" />
+                <e p="readme.md" t="Include" />
+              </e>
+            </e>
+            <e p="favicon.ico" t="Include" />
+            <e p="index.html" t="Include" />
+            <e p="sample-data" t="Include">
+              <e p="weather.json" t="Include" />
+            </e>
+          </e>
+        </e>
         <e p="CMS" t="IncludeRecursive">
           <e p="_Imports.razor" t="Include" />
           <e p="App.razor" t="Include" />
@@ -63,6 +224,33 @@
             <e p="icon-512.png" t="Include" />
             <e p="index.html" t="Include" />
             <e p="lib" t="Include">
+              <e p="antd" t="Include">
+                <e p="antd-with-locales.js" t="Include" />
+                <e p="antd-with-locales.js.map" t="Include" />
+                <e p="antd-with-locales.min.js" t="Include" />
+                <e p="antd-with-locales.min.js.map" t="Include" />
+                <e p="antd.compact.css" t="Include" />
+                <e p="antd.compact.css.map" t="Include" />
+                <e p="antd.compact.min.css" t="Include" />
+                <e p="antd.css" t="Include" />
+                <e p="antd.css.map" t="Include" />
+                <e p="antd.dark.css" t="Include" />
+                <e p="antd.dark.css.map" t="Include" />
+                <e p="antd.dark.min.css" t="Include" />
+                <e p="antd.js" t="Include" />
+                <e p="antd.js.map" t="Include" />
+                <e p="antd.min.css" t="Include" />
+                <e p="antd.min.js" t="Include" />
+                <e p="antd.min.js.map" t="Include" />
+                <e p="compact-theme.js" t="Include" />
+                <e p="compact-theme.min.js" t="Include" />
+                <e p="dark-theme.js" t="Include" />
+                <e p="dark-theme.min.js" t="Include" />
+                <e p="default-theme.js" t="Include" />
+                <e p="default-theme.min.js" t="Include" />
+                <e p="theme.js" t="Include" />
+                <e p="theme.min.js" t="Include" />
+              </e>
               <e p="bootstrap" t="Include">
                 <e p="dist" t="Include">
                   <e p="css" t="Include">
@@ -240,6 +428,62 @@
                   </e>
                 </e>
               </e>
+              <e p="font-awesome" t="Include">
+                <e p="css" t="Include">
+                  <e p="all.css" t="Include" />
+                  <e p="all.min.css" t="Include" />
+                  <e p="brands.css" t="Include" />
+                  <e p="brands.min.css" t="Include" />
+                  <e p="fontawesome.css" t="Include" />
+                  <e p="fontawesome.min.css" t="Include" />
+                  <e p="regular.css" t="Include" />
+                  <e p="regular.min.css" t="Include" />
+                  <e p="solid.css" t="Include" />
+                  <e p="solid.min.css" t="Include" />
+                  <e p="svg-with-js.css" t="Include" />
+                  <e p="svg-with-js.min.css" t="Include" />
+                  <e p="v4-shims.css" t="Include" />
+                  <e p="v4-shims.min.css" t="Include" />
+                </e>
+                <e p="js" t="Include">
+                  <e p="all.js" t="Include" />
+                  <e p="all.min.js" t="Include" />
+                  <e p="brands.js" t="Include" />
+                  <e p="brands.min.js" t="Include" />
+                  <e p="conflict-detection.js" t="Include" />
+                  <e p="conflict-detection.min.js" t="Include" />
+                  <e p="fontawesome.js" t="Include" />
+                  <e p="fontawesome.min.js" t="Include" />
+                  <e p="regular.js" t="Include" />
+                  <e p="regular.min.js" t="Include" />
+                  <e p="solid.js" t="Include" />
+                  <e p="solid.min.js" t="Include" />
+                  <e p="v4-shims.js" t="Include" />
+                  <e p="v4-shims.min.js" t="Include" />
+                </e>
+                <e p="sprites" t="Include">
+                  <e p="brands.svg" t="Include" />
+                  <e p="regular.svg" t="Include" />
+                  <e p="solid.svg" t="Include" />
+                </e>
+                <e p="webfonts" t="Include">
+                  <e p="fa-brands-400.eot" t="Include" />
+                  <e p="fa-brands-400.svg" t="Include" />
+                  <e p="fa-brands-400.ttf" t="Include" />
+                  <e p="fa-brands-400.woff" t="Include" />
+                  <e p="fa-brands-400.woff2" t="Include" />
+                  <e p="fa-regular-400.eot" t="Include" />
+                  <e p="fa-regular-400.svg" t="Include" />
+                  <e p="fa-regular-400.ttf" t="Include" />
+                  <e p="fa-regular-400.woff" t="Include" />
+                  <e p="fa-regular-400.woff2" t="Include" />
+                  <e p="fa-solid-900.eot" t="Include" />
+                  <e p="fa-solid-900.svg" t="Include" />
+                  <e p="fa-solid-900.ttf" t="Include" />
+                  <e p="fa-solid-900.woff" t="Include" />
+                  <e p="fa-solid-900.woff2" t="Include" />
+                </e>
+              </e>
               <e p="webix" t="Include">
                 <e p="fonts" t="Include">
                   <e p="font-license.txt" t="Include" />
@@ -308,7 +552,7 @@
           </e>
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
-              <e p="netcoreapp3.1" t="Include">
+              <e p="net5.0" t="Include">
                 <e p="CMS_API.AssemblyInfo.cs" t="Include" />
               </e>
             </e>
@@ -365,7 +609,7 @@
           <e p="JsonHelper.cs" t="Include" />
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
-              <e p="netcoreapp3.1" t="Include">
+              <e p="net5.0" t="Include">
                 <e p="Common.AssemblyInfo.cs" t="Include" />
               </e>
             </e>
@@ -390,7 +634,7 @@
           <e p="IDataService.cs" t="Include" />
           <e p="obj" t="ExcludeRecursive">
             <e p="Debug" t="Include">
-              <e p="netcoreapp3.1" t="Include">
+              <e p="net5.0" t="Include">
                 <e p="DataService.AssemblyInfo.cs" t="Include" />
               </e>
             </e>

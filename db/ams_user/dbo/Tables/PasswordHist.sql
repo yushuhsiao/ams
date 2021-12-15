@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[PasswordHist] (
-    [UserId]     INT           NOT NULL,
+    [UserId]     BIGINT        NOT NULL,
     [ver]        BIGINT        NOT NULL,
     [Encrypt]    INT           NOT NULL,
     [a]          VARCHAR (50)  NULL,

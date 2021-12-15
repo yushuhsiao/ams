@@ -3,8 +3,10 @@
     [B]          SMALLINT        NOT NULL,
     [ver]        ROWVERSION      NOT NULL,
     [X]          DECIMAL (19, 6) NOT NULL,
-    [ModifyTime] DATETIME        CONSTRAINT [DF_Currency_ModifyTime] DEFAULT (getdate()) NOT NULL,
+    [ModifyTime] DATETIME        CONSTRAINT [DF_Currency_ModifyTime] DEFAULT (getutcdate()) NOT NULL,
     [ModifyUser] INT             CONSTRAINT [DF_Currency_ModifyUser] DEFAULT ((0)) NOT NULL,
     CONSTRAINT [PK_Currency] PRIMARY KEY CLUSTERED ([A] ASC, [B] ASC)
 );
+
+
 

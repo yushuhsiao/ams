@@ -1,12 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <Name>ams_user</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{98c60739-6d4e-4db1-895c-cdf1797dd771}</ProjectGuid>
+    <ProjectGuid>{7985ad6d-6911-4424-ae67-9a9a3712c628}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
@@ -16,7 +17,7 @@
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
@@ -56,5 +57,47 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Stored Procedures\" />
+    <Folder Include="dbo\Sequences\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\UserPlatformGame.sql" />
+    <Build Include="dbo\Tables\UserId.sql" />
+    <Build Include="dbo\Tables\UserBalance.sql" />
+    <Build Include="dbo\Tables\UserAclDelegate.sql" />
+    <Build Include="dbo\Tables\UserAcl.sql" />
+    <Build Include="dbo\Tables\TranCorp2.sql" />
+    <Build Include="dbo\Tables\TranCorp1.sql" />
+    <Build Include="dbo\Tables\PasswordHist.sql" />
+    <Build Include="dbo\Tables\Password.sql" />
+    <Build Include="dbo\Tables\Members.sql" />
+    <Build Include="dbo\Tables\MemberPlatform.sql" />
+    <Build Include="dbo\Tables\MemberGame.sql" />
+    <Build Include="dbo\Tables\CorpPlatform.sql" />
+    <Build Include="dbo\Tables\CorpGame.sql" />
+    <Build Include="dbo\Tables\ApiAuth.sql" />
+    <Build Include="dbo\Tables\Agents.sql" />
+    <Build Include="dbo\Tables\AgentPlatform.sql" />
+    <Build Include="dbo\Tables\AgentGame.sql" />
+    <Build Include="dbo\Tables\Admins.sql" />
+    <Build Include="dbo\Stored Procedures\UpdatePassword.sql" />
+    <Build Include="dbo\Stored Procedures\UpdateBalance.sql" />
+    <Build Include="dbo\Stored Procedures\alloc_UserId.sql" />
+    <Build Include="dbo\Sequences\UserId2.sql" />
+    <Build Include="dbo\Sequences\TranId.sql" />
+    <Build Include="dbo\Tables\TranUser2.sql" />
+    <Build Include="dbo\Tables\TranUser1.sql" />
+    <Build Include="dbo\Tables\TranPlatform2.sql" />
+    <Build Include="dbo\Tables\TranPlatform1.sql" />
+    <Build Include="dbo\Tables\TranPayment2.sql" />
+    <Build Include="dbo\Tables\TranPayment1.sql" />
+    <Build Include="dbo\Tables\TranCert.sql" />
+    <Build Include="dbo\Tables\PaymentAccount.sql" />
+    <Build Include="dbo\Tables\Users_Member.sql" />
+    <Build Include="dbo\Tables\Users_Agent.sql" />
+    <Build Include="dbo\Tables\Users_Admin.sql" />
+    <Build Include="dbo\Tables\Users.sql" />
   </ItemGroup>
 </Project>
